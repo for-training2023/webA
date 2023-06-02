@@ -9,6 +9,7 @@
   <title>音楽室</title>
 </head>
 <body>
+  // github動作確認のためにコメント記述
   <% String count = (String)request.getAttribute("count");
   if (( count != null )&&( !count.equals(""))) {
 	  %><p>Success</p><%
