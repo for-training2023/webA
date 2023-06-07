@@ -71,9 +71,12 @@ public class S00006 extends HttpServlet {
 		request.setAttribute("title_type_radio", title_type_radio);
 		request.setAttribute("title", title);
 		request.setAttribute("sort_order", sort_order);
-		
+
 		// (4) S00005.jspにフォワーディングする。
 		getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request, response);
 	}
 
 }
+
+
+

@@ -877,6 +877,7 @@ public class S00005 extends HttpServlet {
 		long retValue = (miliTime / 1000);
 		return retValue;
 	}
+	
 	public static String getLastUploadTime(Double release_datetime) {
 
 		double d_releaseDay = 0;
@@ -975,13 +976,5 @@ public class S00005 extends HttpServlet {
 
 		}
 	}
-	
-
-	/**
-	 * 公開日時の表示ラベル取得
-	 * @param release_datetime
-	 * @return
-	 */
-
 
 }
