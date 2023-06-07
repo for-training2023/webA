@@ -18,6 +18,63 @@
 
 <!-- 画像の圧縮表示設定 -->
 <style>
+div.song_list ul li div.cell div.song1 img {
+	position: relative;
+	left: 0px;
+	top: -11px;
+	width: 275px;
+	height: 182px;
+}
+
+div.song_list ul li div.cell div.song2 img {
+	position: relative;
+	left: 0px;
+	top: -134.5px;
+	width: 275px;
+	height: 429px;
+}
+
+div.song_list ul li div.cell div.song3 img {
+	position: relative;
+	left: 0px;
+	top: -30.5px;
+	width: 275px;
+	height: 220px;
+}
+p{
+padding-bottom: 10px;
+}
+.pic1 img {
+	border-radius: 20px;
+	padding-left: 10px;
+}
+.img{
+padding-bottom: 250px;
+}
+div.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 450px;
+}
+div.title_bar {
+  /* absoluteの起点 */
+  position:relative;
+  width: 100%;
+  height: 40px;
+  background-color: #e6e6fa;
+}
+div.title_bar p.sub_title {
+position:absolute;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  top: 0px;
+  left: 120px;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-right: 62px;
+  white-space: nowrap;
+}
 
 </style>
 </head>
