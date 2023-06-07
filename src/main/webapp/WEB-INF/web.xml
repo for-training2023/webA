@@ -33,4 +33,17 @@
     <location>/jsp/404.jsp</location>
     </error-page>
 
+
+	<!-- トップページS00001 -->
+	<servlet>
+		<servlet-name>S00001</servlet-name>
+		<servlet-class>jp.excd.servlet.S00001</servlet-class>	
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>S00001</servlet-name>
+		<url-pattern>/ja/S00001</url-pattern>
+	</servlet-mapping>
+
+
 </web-app>
