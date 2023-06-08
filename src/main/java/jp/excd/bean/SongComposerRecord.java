@@ -1,6 +1,9 @@
 package jp.excd.bean;
 
 public class SongComposerRecord {
+	// メンバ名をキャメルケースで命名しているため、
+	// もしかしたら他Beanと命名規則が異なっているかもしれないです。
+		
 	private long songId; // 曲ID
 	private String title; // 曲名
 	private String uniqueCode; // ユニーク名(作曲家)
@@ -16,7 +19,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * 曲ID
-	 * 	 */	
+	 */
 	public long getSongId() {
 		return this.songId;
 	}
@@ -27,7 +30,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * 曲名
-	 * 	 */	
+	 */
 	public String getTitle() {
 		return this.title;
 	}
@@ -38,7 +41,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * ユニーク名(作曲家)
-	 * 	 */	
+	 */
 	public String getUniqueCode() {
 		return this.uniqueCode;
 	}
@@ -49,7 +52,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * ニックネーム(作曲家)
-	 * 	 */	
+	 */
 	public String getNickname() {
 		return this.nickname;
 	}
@@ -59,7 +62,7 @@ public class SongComposerRecord {
 
 	/**
 	 * 総感動指数
-	 * 	 */	
+	 */
 	public long getRatingTotal() {
 		return this.ratingTotal;
 	}
@@ -70,7 +73,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * 平均感動指数
-	 * 	 */	
+	 */
 	public double getRatingAverage() {
 		return this.ratingAverage;
 	}
@@ -81,7 +84,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * 再生回数
-	 * 	 */	
+	 */
 	public long getTotalListenCount() {
 		return this.totalListenCount;
 	}
@@ -92,7 +95,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * 公開時間
-	 * 	 */	
+	 */
 	public double getReleaseDatetime() {
 		return this.releaseDatetime;
 	}
@@ -103,7 +106,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * イメージファイル名
-	 * 	 */	
+	 */
 	public String getImageFileName() {
 		return this.imageFileName;
 	}
@@ -114,7 +117,7 @@ public class SongComposerRecord {
 	
 	/**
 	 * イメージ画像高さ
-	 * 	 */		
+	 */	
 	public int getImageFileHeight() {
 		return this.imageFileHeight;
 	}
@@ -125,7 +128,7 @@ public class SongComposerRecord {
 
 	/**
 	 * イメージ画像幅
-	 * 	 */		
+	 */	
 	public int getImageFileWidth() {
 		return this.imageFileWidth;
 	}
@@ -134,17 +137,3 @@ public class SongComposerRecord {
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

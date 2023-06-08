@@ -44,7 +44,7 @@ public class Util {
 		return ret;
 	}
 	
-	
+
 	/**
 	 * 引数targetPathをコンテキストルートからのパスに変換して返却
 	 * @param request
@@ -75,29 +75,6 @@ public class Util {
 			imageFilePath = "../images/" + imageFileName;
 		}
 		return imageFilePath;
-	}
-	
-	
-	public static boolean isWholeNumber(String num) {
-		try {
-			int wn = Integer.parseInt(num);
-			if(wn < 0) {
-				return false;
-			} else {
-			return true; }
-		} catch (NumberFormatException e) {
-			return false; // エラーにならないように、とりあえずダミー
-		}
-	}
-	
-
-	public static boolean isDouble(String num) {
-		try {
-			Double.parseDouble(num);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; // エラーにならないように、とりあえずダミー
-		}
 	}
 	
 	

@@ -1,6 +1,9 @@
 package jp.excd.servlet;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,7 +87,7 @@ public class S00001 extends HttpServlet {
 		// データ取得開始位置
 		String fromOrg = request.getParameter("from");
 		int from;
-		if (Util.isNullOrEmpty(fromOrg) || Util.canCovertInt(fromOrg)) {
+		if (Util.isNullOrEmpty(fromOrg) || !Util.canCovertInt(fromOrg)) {
 			from = 1; // 1件目から取得表示する
 		}else{
 			from = Integer.parseInt(fromOrg);
@@ -172,14 +175,23 @@ public class S00001 extends HttpServlet {
 				beanRecord.setRatingAverageFormated(averageFormat(record.getRatingAverage())); // 平均評価数(小数編集済み)
 				beanRecord.setTotalListenCountFormated(valueCommaFormat(record.getTotalListenCount())); // 再生回数(カンマ編集済み)
 				beanRecord.setReleaseDatetimeFormated(getFromEpochToFormat(record.getReleaseDatetime())); // 公開日(表示文言編集済み)
-				beanRecord.setImageFileNameFormated(Util.imageFilePathFormat(record.getImageFileName())); // ファイル名(画像ファイルパス編集済み)
 
 				// ファイル関連の値
+				String imageFileName = record.getImageFileName();
 				int width = record.getImageFileWidth();
 				double height = imageHeightFormat(width, record.getImageFileHeight());
-				beanRecord.setImageFileHeightFortmated(height); // 画像ファイル高さ(編集済み)
+				
+				// DBから取得したファイル名のファイルが存在するかどうかによって、設定する値を変更する
+				if(existsFileOrFolder("images/" + imageFileName)) {
+					beanRecord.setImageFileNameFormated(Util.imageFilePathFormat(imageFileName)); // ファイル名(画像ファイルパス編集済み)
+					beanRecord.setImageFileHeightFortmated(height); // 画像ファイル高さ(編集済み)
+					beanRecord.setImageFileHeightCutLength(cutLength(height)); // 画像上部をカットする長さ					
+				}else {
+					beanRecord.setImageFileNameFormated(""); // ファイル名
+					beanRecord.setImageFileHeightFortmated((double)Util.IMAGE_FILE_MAX_HEIGHT); // 画像ファイル高さ(編集済み)
+					beanRecord.setImageFileHeightCutLength((double)0); // 画像上部をカットする長さ					
+				}
 				beanRecord.setImageFileWidthFormated(Util.IMAGE_FILE_WIDTH); // 横幅pxは固定
-				beanRecord.setImageFileHeightCutLength(cutLength(height)); // 画像上部をカットする長さ
 				
 				displayList.add(beanRecord);
 		}
@@ -297,6 +309,20 @@ public class S00001 extends HttpServlet {
 		// 前処理で生成したListを呼び出し元に返却する。
 		return SongComposerList;
 	}
+	
+	/**
+	 * 引数targetPathのファイルもしくはフォルダが存在するかチェック
+	 * @param targetPath コンテキストルートより後続のパス("コンテキストルート/"を含まない)を想定
+	 * 		　 相対パスだと呼び出す場所によって結果が変わるため絶対パス
+	 * @return 存在すればtrue、なければfalse
+	 */
+	public boolean existsFileOrFolder(String targetPath) {
+		String pathInfo = this.getServletContext().getRealPath("/"); // コンテキストルートまでの物理パスを取得
+		Path p = Paths.get(pathInfo + targetPath);
+		
+		return Files.exists(p) ? true : false;
+	}
+	
 
 	/**
 	 * ↓↓↓↓↓

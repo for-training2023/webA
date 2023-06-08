@@ -1,6 +1,11 @@
 package jp.excd.bean;
 
 public class SongComposerBean {
+	// メンバ名をキャメルケースで命名しているため、
+	// もしかしたら他Beanと命名規則が異なっているかもしれないです。
+	
+	// imageFileWidthFormatedプロパティは定数(width=275)のため、
+	// 不要なメンバで削除が望ましいが、実装変更が面倒なのでこのまま。
 
 	String songId; // 曲ID
 	String title; // 曲名
@@ -18,7 +23,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 曲ID
-	 * 	 */	
+	 */	
 	public String getSongId() {
 		return this.songId;
 	}
@@ -29,7 +34,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 曲名
-	 * 	 */		
+	 */		
 	public String getTitle() {
 		return this.title;
 	}
@@ -40,7 +45,7 @@ public class SongComposerBean {
 	
 	/**
 	 * ユニーク名(作曲家)
-	 * 	 */	
+	 */	
 	public String getUniqueCode() {
 		return this.uniqueCode;
 	}
@@ -51,7 +56,7 @@ public class SongComposerBean {
 	
 	/**
 	 * ニックネーム(作曲家)
-	 * 	 */	
+	 */	
 	public String getNickname() {
 		return this.nickname;
 	}
@@ -62,7 +67,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 総感動指数(カンマ編集済み)
-	 * 	 */	
+	 */	
 	public String getRatingTotalFormated() {
 		return this.ratingTotalFormated;
 	}
@@ -73,7 +78,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 平均感動指数(四捨五入編集済み)
-	 * 	 */	
+	 */	
 	public String getRatingAverageFormated() {
 		return this.ratingAverageFormated;
 	}
@@ -84,7 +89,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 再生回数(カンマ編集済み)
-	 * 	 */	
+	 */	
 	public String getTotalListenCountFormated() {
 		return this.totalListenCountFormated;
 	}
@@ -95,7 +100,7 @@ public class SongComposerBean {
 	
 	/**
 	 * 公開時間(表記編集済み)
-	 * 	 */	
+	 */	
 	public String getReleaseDatetimeFormated() {
 		return this.releaseDatetimeFormated;
 	}
@@ -106,7 +111,7 @@ public class SongComposerBean {
 	
 	/**
 	 * イメージファイル名(path名含むよう編集済み)
-	 * 	 */	
+	 */	
 	public String getImageFileNameFormated() {
 		return this.imageFileNameFormated;
 	}
@@ -117,7 +122,7 @@ public class SongComposerBean {
 	
 	/**
 	 * イメージファイル画像高さ(編集済み)
-	 * 	 */	
+	 */	
 	public Double getImageFileHeightFortmated() {
 		return this.imageFileHeightFortmated;
 	}
@@ -128,7 +133,7 @@ public class SongComposerBean {
 	
 	/**
 	 * イメージファイル画像幅(編集済み)
-	 * 	 */	
+	 */	
 	public int getImageFileWidthFormated() {
 		return this.imageFileWidthFormated;
 	}
@@ -139,7 +144,7 @@ public class SongComposerBean {
 	
 	/**
 	 * イメージファイル画像高さのはみ出し長さ
-	 * 	 */		
+	 */		
 	public Double getImageFileHeightCutLength() {
 		return this.imageFileHeightCutLength;
 	}
