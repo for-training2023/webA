@@ -52,9 +52,9 @@ public class Util {
 	 * @return コンテキストルートからのパス
 	 */
 	public static String addContextPath(HttpServletRequest request, String targetPath) {
-		String contextPath = request.getContextPath();
-		
 		if(Util.isNullOrEmpty(targetPath)) return "";
+
+		String contextPath = request.getContextPath();
 		
 		return contextPath + targetPath;
 	}
@@ -68,7 +68,7 @@ public class Util {
 	public static String imageFilePathFormat(String imageFileName) {
 		String imageFilePath = ""; //DBにファイル名が保存されていない場合は空文字を返却する
 
-		if(imageFileName != null && !imageFileName.isEmpty()){
+		if(!Util.isNullOrEmpty(imageFileName)){
 			// jspから画像ファイルへの相対パスを設定
 			// 絶対パスの生成にはコンテキストパスrequest.getContextPath()の取得が必要で、
 			// 仮引数requestを追加する実装が面倒なので、今回は相対パスで実装

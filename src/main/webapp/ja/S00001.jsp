@@ -62,10 +62,13 @@
 			<!-- トップタブ -->
 			<div class="top_tab">
 				<ul>
-					<li class="tab1 <%= TopCategory.NEW_RECORD.getCode().equals(category) == true ? "selected" : "" %>"><a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + TopCategory.NEW_RECORD.getCode()) %>"><div name="category" value="<%= TopCategory.NEW_RECORD.getCode() %>">新着</div></a></li>
-					<li class="tab2 <%= TopCategory.FAVORITE.getCode().equals(category) == true ? "selected" : "" %>"><a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + TopCategory.FAVORITE.getCode()) %>"><div name="category" value="<%= TopCategory.FAVORITE.getCode() %>">人気</div></a></li>
-					<li class="tab3 <%= TopCategory.HIGH_RATING.getCode().equals(category) == true ? "selected" : "" %>"><a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + TopCategory.HIGH_RATING.getCode()) %>"><div name="category" value="<%= TopCategory.HIGH_RATING.getCode() %>">高評価</div></a></li>
-					<li class="tab4 <%= TopCategory.MASTERPIECE.getCode().equals(category) == true ? "selected" : "" %>"><a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + TopCategory.MASTERPIECE.getCode()) %>"><div name="category" value="<%= TopCategory.MASTERPIECE.getCode() %>">名作</div></a></li>
+					<% for(TopCategory cat: TopCategory.values()){ %>
+						<li class="<%= "tab" + cat.getCode()%> <%= cat.getCode().equals(category) == true ? "selected" : "" %>">
+							<a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + cat.getCode()) %>">
+								<div name="category" value="<%= cat.getCode() %>"><%= cat.getCategoryName(cat.getCode()) %></div>
+							</a>
+						</li>
+					<% } %>
 				</ul>
 			</div>
 	

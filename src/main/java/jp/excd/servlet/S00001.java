@@ -111,12 +111,12 @@ public class S00001 extends HttpServlet {
 		String noticeMessage = this.getNotice(con, LanguageType.JPN.getCode());
 
 		// Requestオブジェクトに値を設定（setAttribute）する
+		request.setAttribute("nextFrom", nextFrom);
+		request.setAttribute("category", category);
 		request.setAttribute("displayList", resultsForDisplay);
 		request.setAttribute("appMessage", appMessage);
 		request.setAttribute("noticeMessage", noticeMessage);
-		request.setAttribute("nextFrom", nextFrom);
-		request.setAttribute("category", category);
-
+		
 		// S00001.jspにフォワーディングする。
 		request.getRequestDispatcher("/ja/S00001.jsp").forward(request, response);
 	}
@@ -153,51 +153,6 @@ public class S00001 extends HttpServlet {
 		return ret;
 	}
 
-	/**
-	 * SQLにより取得したデータを加工して、画面表示用Listに詰めかえる
-	 * @param SongComposerList 加工前のSQL取得データ
-	 * @return 加工後のデータ
-	 */
-	private List<SongComposerBean> SqlResultEdit(List<SongComposerRecord> SongComposerList) {
-		//リストの宣言
-		List<SongComposerBean> displayList = new ArrayList<SongComposerBean>();
-
-		for(SongComposerRecord record : SongComposerList){
-				SongComposerBean beanRecord = new SongComposerBean();
-
-				beanRecord.setSongId(Long.toString(record.getSongId()));
-				beanRecord.setTitle(record.getTitle());
-				beanRecord.setUniqueCode(record.getUniqueCode());
-				beanRecord.setNickname(record.getNickname());
-
-				// 編集する値
-				beanRecord.setRatingTotalFormated(valueCommaFormat(record.getRatingTotal())); // 総評価数(カンマ編集済み)
-				beanRecord.setRatingAverageFormated(averageFormat(record.getRatingAverage())); // 平均評価数(小数編集済み)
-				beanRecord.setTotalListenCountFormated(valueCommaFormat(record.getTotalListenCount())); // 再生回数(カンマ編集済み)
-				beanRecord.setReleaseDatetimeFormated(getFromEpochToFormat(record.getReleaseDatetime())); // 公開日(表示文言編集済み)
-
-				// ファイル関連の値
-				String imageFileName = record.getImageFileName();
-				int width = record.getImageFileWidth();
-				double height = imageHeightFormat(width, record.getImageFileHeight());
-				
-				// DBから取得したファイル名のファイルが存在するかどうかによって、設定する値を変更する
-				if(existsFileOrFolder("images/" + imageFileName)) {
-					beanRecord.setImageFileNameFormated(Util.imageFilePathFormat(imageFileName)); // ファイル名(画像ファイルパス編集済み)
-					beanRecord.setImageFileHeightFortmated(height); // 画像ファイル高さ(編集済み)
-					beanRecord.setImageFileHeightCutLength(cutLength(height)); // 画像上部をカットする長さ					
-				}else {
-					beanRecord.setImageFileNameFormated(""); // ファイル名
-					beanRecord.setImageFileHeightFortmated((double)Util.IMAGE_FILE_MAX_HEIGHT); // 画像ファイル高さ(編集済み)
-					beanRecord.setImageFileHeightCutLength((double)0); // 画像上部をカットする長さ					
-				}
-				beanRecord.setImageFileWidthFormated(Util.IMAGE_FILE_WIDTH); // 横幅pxは固定
-				
-				displayList.add(beanRecord);
-		}
-
-		return displayList;
-	}
 
 	/**
 	 * SQL文を生成して、DBよりデータを取得する
@@ -269,6 +224,7 @@ public class S00001 extends HttpServlet {
 			ResultSet rs = pstmt.executeQuery();
 
 			int hitsCounter = 0;
+			displayFrom--; // ループカウンタhitsCounterの初期値0のため、例えば1件目から抽出する場合はdisplayFrom=0である必要がある
 			int displayTo = displayFrom + MAX_DISPLAY_RANGE - 1;
 			
 			while (rs.next()) {
@@ -309,6 +265,56 @@ public class S00001 extends HttpServlet {
 		// 前処理で生成したListを呼び出し元に返却する。
 		return SongComposerList;
 	}
+
+	
+	/**
+	 * SQLにより取得したデータを加工して、画面表示用Listに詰めかえる
+	 * @param SongComposerList 加工前のSQL取得データ
+	 * @return 加工後のデータ
+	 */
+	private List<SongComposerBean> SqlResultEdit(List<SongComposerRecord> SongComposerList) {
+		//リストの宣言
+		List<SongComposerBean> displayList = new ArrayList<SongComposerBean>();
+
+		for(SongComposerRecord record : SongComposerList){
+				SongComposerBean beanRecord = new SongComposerBean();
+
+				beanRecord.setSongId(Long.toString(record.getSongId()));
+				beanRecord.setTitle(record.getTitle());
+				beanRecord.setUniqueCode(record.getUniqueCode());
+				beanRecord.setNickname(record.getNickname());
+
+				// 編集する値
+				beanRecord.setRatingTotalFormated(valueCommaFormat(record.getRatingTotal())); // 総評価数(カンマ編集済み)
+				beanRecord.setRatingAverageFormated(averageFormat(record.getRatingAverage())); // 平均評価数(小数編集済み)
+				beanRecord.setTotalListenCountFormated(valueCommaFormat(record.getTotalListenCount())); // 再生回数(カンマ編集済み)
+				beanRecord.setReleaseDatetimeFormated(getFromEpochToFormat(record.getReleaseDatetime())); // 公開日(表示文言編集済み)
+
+				// ファイル関連の値
+				String imageFileName = record.getImageFileName();
+				int width = record.getImageFileWidth();
+				double height = imageHeightFormat(width, record.getImageFileHeight());
+				
+				beanRecord.setImageFileNameFormated(Util.imageFilePathFormat(imageFileName)); // ファイル名(画像ファイルパス編集済み)
+
+				// DBから取得したファイル名のファイルが存在するかどうかによって、設定する値を変更する
+				// DBにファイル名がないのか、取得したファイル名のファイルが存在しないのかを区別するため、
+				// ファイルが存在しない場合は、noimage.pngを出すのではなく、altメッセージを表示する
+				if(existsFileOrFolder("images/" + imageFileName)) {
+					beanRecord.setImageFileHeightFortmated(height); // 画像ファイル高さ(編集済み)
+					beanRecord.setImageFileHeightCutLength(cutLength(height)); // 画像上部をカットする長さ					
+				}else {
+					beanRecord.setImageFileHeightFortmated((double)Util.IMAGE_FILE_MAX_HEIGHT); // 画像ファイル高さ(編集済み)
+					beanRecord.setImageFileHeightCutLength((double)0); // 画像上部をカットする長さ					
+				}
+				beanRecord.setImageFileWidthFormated(Util.IMAGE_FILE_WIDTH); // 横幅pxは固定
+				
+				displayList.add(beanRecord);
+		}
+
+		return displayList;
+	}
+	
 	
 	/**
 	 * 引数targetPathのファイルもしくはフォルダが存在するかチェック
