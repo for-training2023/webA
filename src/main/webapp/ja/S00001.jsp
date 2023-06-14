@@ -109,13 +109,13 @@
 									width="<%= String.valueOf(Util.IMAGE_FILE_WIDTH) %>" height="<%= String.valueOf(Util.IMAGE_FILE_MAX_HEIGHT) %>" >
 								<%
 								} else {
-									if(record.getImageFileHeightCutLength()>0){	
+									if(record.getImageFileHeightCutLength() != 0){	
 								%>
 										<img alt="<%= record.getTitle() %>" src="<%= record.getImageFileNameFormated() %>" 
 										style = "width : <%=record.getImageFileWidthFormated()%>px !important;
 												height : <%=record.getImageFileHeightFortmated()%>px !important;
 												position:relative !important;
-												top:-<%=record.getImageFileHeightCutLength() %>px !important;">
+												top: <%= (-1) * record.getImageFileHeightCutLength() %>px !important;">
 										<%
 									}else{
 										%>

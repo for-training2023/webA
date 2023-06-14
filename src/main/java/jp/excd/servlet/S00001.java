@@ -389,7 +389,7 @@ public class S00001 extends HttpServlet {
 	 */
 	public static double cutLength(double height) {
 		double imageLength = 0;
-		if(height > Util.IMAGE_FILE_MAX_HEIGHT) {
+		if(height != Util.IMAGE_FILE_MAX_HEIGHT) {
 			// 画像高さがIMAGE_FILE_MAX_HEIGHTを超える場合、余剰分をカットしなければならない
 			// 画像高さからIMAGE_FILE_MAX_HEIGHTを引いた値を2で割ると、画像上部(および下部)の余剰分が分かる
 			imageLength = (height - Util.IMAGE_FILE_MAX_HEIGHT) / 2;
