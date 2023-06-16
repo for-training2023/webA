@@ -393,7 +393,8 @@ public class S00007 extends HttpServlet {
 				rt = Integer.parseInt(listener_count_to);
 			}
 			//上限値が未入力の場合
-			if("".equals(listener_count_to) && !("".equals(listener_count_from)))
+			if("".equals(listener_count_to) && !("".equals(listener_count_from))) {
+				rt = 0;
 				if (rf < rt) {
 					//エラー
 					String s = this.getDescription(con, "ES00007_013", "002");
@@ -405,8 +406,10 @@ public class S00007 extends HttpServlet {
 				} else {
 					//処理続行
 				}
+			}
 			//下限値が未入力の場合
 			if(!("".equals(listener_count_to)) && ("".equals(listener_count_from))){
+				rf = 0;
 				if (rf > rt) {
 					//エラー
 					String s = this.getDescription(con, "ES00007_013", "002");
@@ -418,6 +421,7 @@ public class S00007 extends HttpServlet {
 				}
 			}
 		}
+
 
 		// (16)	言語区分について、エラー判定を行う。
 		if ("002".equals(language_type_jp)) {
