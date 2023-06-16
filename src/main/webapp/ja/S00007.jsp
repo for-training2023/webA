@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="web.S00008"%>
+<%@ page import="jp.excd.servlet.S00008"%>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -29,26 +29,6 @@ div.main_button input {
 </style>
 
 <%
-	String a = (String)request.getAttribute("error");
-	String s = (String)request.getAttribute("nickname_is_error");
-	String b = (String)request.getAttribute("nickname_type_radio");
-	String c = (String)request.getAttribute("nickname");
-	String d = (String)request.getAttribute("joined_date_is_error");
-	String e = (String)request.getAttribute("joined_date_radio");
-	String f = (String)request.getAttribute("joined_date_from");
-	String g = (String)request.getAttribute("joined_date_to");
-	String h = (String)request.getAttribute("birthday_is_error");
-	String i = (String)request.getAttribute("birthday_radio");
-	String k = (String)request.getAttribute("birthday_from");
-	String l = (String)request.getAttribute("birthday_to");
-	String m = (String)request.getAttribute("listener_count_is_error");
-	String n = (String)request.getAttribute("listener_count_from");
-	String o = (String)request.getAttribute("listener_count_to");
-	String p = (String)request.getAttribute("language_type_is_error");
-	String q = (String)request.getAttribute("language_type_jp");
-	String r = (String)request.getAttribute("language_type_en");
-
-
 	// (1) 「エラー情報(error)」が設定されている場合は、画面に「エラー情報(error)」を表示する。
 	String errorMessage = (String)request.getAttribute("error");
     if (errorMessage == null) errorMessage = "";
@@ -56,26 +36,26 @@ div.main_button input {
 
 	// (2) 「ニックネーム_エラー状態(nickname_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String nickname_is_error = "";
-	if ("1".equals(request.getAttribute("nickname_is_error"))) {
+	if ("1".equals((String)request.getAttribute("nickname_is_error"))) {
 		nickname_is_error = ", error";
 	}
 
 	// (3) 以下の項目を元にニックネームの入力状態を再現する。
-	System.out.println(request.getAttribute("nickname_radio"));
+	System.out.println((String)request.getAttribute("nickname_radio"));
 	
 	String nickname_radio1 = "";
 	String nickname_radio2 = "";
 	if("1".equals((String)request.getAttribute("nickname_radio"))) {
 		nickname_radio1 = "checked=\"checked\"";
-	} else if ("2".equals(request.getAttribute("nickname_radio"))) {
+	} else {
 		nickname_radio2 = "checked=\"checked\"";
 	}
 	
 		String nickname_type_radio1 = "";
 		String nickname_type_radio2 = "";
-	if ("1".equals(request.getAttribute("nickname_type_radio"))) {
+	if ("1".equals((String)request.getAttribute("nickname_type_radio"))) {
 		nickname_type_radio1 = "checked=\"checked\"";
-	} else if ("2".equals(request.getAttribute("nickname_type_radio"))) {
+	} else {
 		nickname_type_radio2 = "checked=\"checked\"";
 	}
 	
@@ -87,19 +67,17 @@ div.main_button input {
 	
 	// (4) 「登録日_エラー状態(joined_date_is_error)」= "1"の場合
 	String joined_date_is_error = "";
-	if ("1".equals(request.getAttribute("joined_date_is_error"))) {
+	if ("1".equals((String)request.getAttribute("joined_date_is_error"))) {
 		joined_date_is_error = ", error";
 	}
 
 	// (5) 以下の項目を元に登録日の入力状態を再現する。
 	
 	String joined_date_radio1 = "";
-    if ("1".equals(request.getAttribute("joined_date_radio"))) {
-    	joined_date_radio1 = "checked=\"checked\"";
-    }
-    
 	String joined_date_radio2 = "";
-	if ("2".equals(request.getAttribute("joined_date_radio"))) {
+    if ("1".equals((String)request.getAttribute("joined_date_radio"))) {
+    	joined_date_radio1 = "checked=\"checked\"";
+    } else {
 		joined_date_radio2 = "checked=\"checked\"";
 	}
 	
@@ -107,7 +85,6 @@ div.main_button input {
 	if (joined_date_from == null){
 		joined_date_from = "";
 	}
-	
 	String joined_date_to = (String)request.getAttribute("joined_date_to");
 	if (joined_date_to == null){
 		joined_date_to = "";
@@ -115,29 +92,33 @@ div.main_button input {
 
 	// (6) 以下の項目を元に性別の入力状態を再現する。
 	String gender_radio1 = "";
-	if ("1".equals(request.getAttribute("gender_radio"))) {
-		gender_radio1= "selected=\"selected\"";
+	String gender_radio2 = "";
+	if ("1".equals((String)request.getAttribute("gender_radio"))) {
+		gender_radio1= "checked=\"checked\"";
+	} else {
+		gender_radio2 = "checked=\"checked\"";
 	}
 	
-	String gender_radio2 = "";
-	if ("2".equals(request.getAttribute("gender_radio"))) {
-		gender_radio2 = "selected=\"selected\"";
+	String gender1 = "";
+	String gender2 = "";
+	if("1".equals((String)request.getAttribute("gender"))){
+		gender1 = "checked=\"checked\"";
+	} else {
+		gender2 = "checked=\"checked\"";
 	}
 	
 	// (7) 「誕生日_エラー状態(birthday_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String birthday_is_error = "";
-	if ("1".equals(request.getAttribute("birthday_is_error"))) {
+	if ("1".equals((String)request.getAttribute("birthday_is_error"))) {
 		birthday_is_error = ", error";
 	}
 
 	// (8) 以下の項目を元に誕生日の入力状態を再現する。
 	String birthday_radio1 = "";
-	if ("1".equals(request.getAttribute("birthday_radio"))) {
-		birthday_radio1 = "checked=\"checked\"";
-	}
-	
 	String birthday_radio2 = "";
-	if ("2".equals(request.getAttribute("birthday_radio"))) {
+	if ("1".equals((String)request.getAttribute("birthday_radio"))) {
+		birthday_radio1 = "checked=\"checked\"";
+	} else {
 		birthday_radio2 = "checked=\"checked\"";
 	}
 	
@@ -153,18 +134,16 @@ div.main_button input {
 
 	// (9) 「リスナー数_エラー状態(listener_count_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String listener_count_is_error = "";
-	if ("1".equals(request.getAttribute("listener_count_is_error"))) {
+	if ("1".equals((String)request.getAttribute("listener_count_is_error"))) {
 		listener_count_is_error = ", error";
 	}
 	
 	// (10) 以下の項目を元にリスナー数の入力状態を再現する。
 	String listener_count_radio1= "";
-	if ("1".equals(request.getAttribute("listener_count_radio"))) {
-		listener_count_radio1= "checked=\"checked\"";
-	}
-	
 	String listener_count_radio2 = "";
-	if ("2".equals(request.getAttribute("listener_count_radio"))) {
+	if ("1".equals((String)request.getAttribute("listener_count_radio"))) {
+		listener_count_radio1= "checked=\"checked\"";
+	} else {
 		listener_count_radio2 = "checked=\"checked\"";
 	}
 	
@@ -180,26 +159,23 @@ div.main_button input {
 
 	// (11) 「言語区分_エラー状態(language_type_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String language_type_is_error = "";
-	if ("1".equals(request.getAttribute("language_type_is_error"))) {
+	if ("1".equals((String)request.getAttribute("language_type_is_error"))) {
 		language_type_is_error = ", error";
 	}
 	
 	// (12) 以下の項目を元に言語区分の入力状態を再現する。
-	String language_type_jp1 = "";
-	if ("1".equals(request.getAttribute("language_type_jp"))) {
-		language_type_jp1 = "checked=\"checked\"";
+	String language_type_jp = "";
+	String language_type_en = "";
+	if ("002".equals((String)request.getAttribute("language_type_jp"))) {
+		language_type_jp = "checked=\"checked\"";
+	} else if ("001".equals((String)request.getAttribute("language_type_en"))) {
+		language_type_en = "checked=\"checked\"";
 	}
-	
-	String language_type_en1 = "";
-	if ("1".equals(request.getAttribute("language_type_en"))) {
-		language_type_en1 = "checked=\"checked\"";
-	}
-
 %>
 
 <head>
 
-<link rel="stylesheet" href="/web/css/main.css">
+<link rel="stylesheet" href="/webA/css/main.css">
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -224,7 +200,7 @@ div.main_button input {
 		<div class="title_bar">
 			<p class="page_title">作曲家検索結果</p>
 			<a href="#" id="menu_open"> <img alt="メニュー"
-				src="/web/images/menu.png" class="menu-icon">
+				src="/webA/images/menu.png" class="menu-icon">
 			</a>
 		</div>
 
@@ -236,7 +212,7 @@ div.main_button input {
 			if ("".equals(errorMessage) == false) {
 		%>
 		<div class="error_message">
-			<img alt="エラー" src="/web/images/error_mark.png">
+			<img alt="エラー" src="/webA/images/error_mark.png">
 			<p><%= errorMessage %></p>
 		</div>
 		<% } %>
@@ -244,7 +220,7 @@ div.main_button input {
 		<% %>
 
 		<!-- フォーム -->
-		<form name="main" method="post" action="/web/ja/S00007/search">
+		<form name="main" method="post" action="/webA/ja/S00007/search">
 
 			<!--条件divをまとめるdiv(contents)-->
 			<div class="contents_search">
@@ -259,11 +235,11 @@ div.main_button input {
 								<table class="radio_base">
 									<tr>
 									<td><input type="radio" id="id_nickname_radio1"
-										name="nickname_radio" value="1" class="onOffRadio <%= nickname_radio1%>"><span
-										class="radio_label">指定</span></td>
+										name="nickname_radio" value="1" class="onOffRadio" <%= nickname_radio1%>>
+										<span class="radio_label">指定</span></td>
 									<td><input type="radio" id="id_nickname_radio2"
-										name="nickname_radio" value="2" class="onOffRadio"
-										checked="checked"><span class="radio_label">指定なし</span>
+										name="nickname_radio" value="2" class="onOffRadio" <%= nickname_radio2%>>
+										<span class="radio_label">指定なし</span>
 									</td>
 								</tr>
 							</table>
@@ -273,12 +249,10 @@ div.main_button input {
 								<td class="value">
 									<table class="radio_base">
 										<tr>
-											<td><input type="radio" id="id_nickname_type_radio1"
-												name="nickname_type_radio" value="1"><span
-												class="radio_label">あいまい</span></td>
-											<td><input type="radio" id="id_nickname_type_radio2"
-												name="nickname_type_radio" value="2" checked="checked"><span
-												class="radio_label">完全一致</span></td>
+											<td><input type="radio" id="id_nickname_type_radio1" name="nickname_type_radio" value="1" <%= nickname_type_radio1 %>>
+											<span class="radio_label">あいまい</span></td>
+											<td><input type="radio" id="id_nickname_type_radio2" <%= nickname_type_radio2 %> name="nickname_type_radio" value="2" >
+											<span class="radio_label" >完全一致</span></td>
 										</tr>
 									</table> <input type="text" id="id_nickname" name="nickname" value=<%= nickname %>>
 								</td>
@@ -297,20 +271,20 @@ div.main_button input {
 										<table class="radio_base">
 											<tr>
 												<td><input type="radio" id="id_joined_date_radio1"
-													name="joined_date_radio" value="1" class="onOffRadio"><span
-													class="radio_label">指定</span></td>
+													name="joined_date_radio" value="1" class="onOffRadio" <%= joined_date_radio1 %>>
+													<spanclass="radio_label">指定</span></td>
 												<td><input type="radio" id="id_joined_date_radio2"
-													name="joined_date_radio" value="2" class="onOffRadio"
-													checked="checked"><span class="radio_label">指定なし</span>
+													name="joined_date_radio" value="2" class="onOffRadio" <%= joined_date_radio2 %>>
+													<span class="radio_label">指定なし</span>
 												</td>
 											</tr>
 										</table>
 									</td>
 								</tr>
 								<tr>
-									<td class="value"><input type="date" id="id_joined_date_from" name="joined_date_from" value="joined_date_from"> <%= joined_date_from %>
+									<td class="value"><input type="date" id="id_joined_date_from" name="joined_date_from" value=<%= joined_date_from %>> 
 										<br> ～ <br> 
-										<input type="date" id="id_joined_date_to" name="joined_date_to" value="joined_date_to"><%= joined_date_to %></td>
+										<input type="date" id="id_joined_date_to" name="joined_date_to" value=<%= joined_date_to %>></td>
 								</tr>
 							</table>
 						</div>
@@ -323,12 +297,10 @@ div.main_button input {
 									<td class="value">
 										<table class="radio_base">
 											<tr>
-												<td><input type="radio" id="id_gender_radio"
-													name="gender_radio" value="1" class="onOffRadio" ><span
-													class="radio_label">指定</span></td>
-												<td><input type="radio" id="id_gender_radio"
-													name="gender_radio" value="2" class="onOffRadio"
-													checked="checked"><span class="radio_label">指定なし</span>
+												<td><input type="radio" id="id_gender_radio" name="gender_radio" value="1" class="onOffRadio" <%= gender_radio1 %>>
+													<span class="radio_label">指定</span></td>
+												<td><input type="radio" id="id_gender_radio" name="gender_radio" value="2" class="onOffRadio" <%= gender_radio2 %>>
+												<span class="radio_label">指定なし</span>
 												</td>
 											</tr>
 										</table>
@@ -336,7 +308,7 @@ div.main_button input {
 								</tr>
 								<tr>
 									<td class="value"><select name="gender" tabindex="10">
-											<option id="id_gender1" value="1" selected="selected">男</option>
+											<option id="id_gender1" value="1" >男</option>
 											<option id="id_gender2" value="2">女</option>
 									</select></td>
 								</tr>
@@ -352,22 +324,22 @@ div.main_button input {
 										<td class="value">
 											<table class="radio_base">
 												<tr>
+													<td><input type="radio" id="id_birthday_radio1" name="birthday_radio" value="1" class="onOffRadio" <%= birthday_radio1 %>>
+														<span class="radio_label">指定</span></td>
 													<td><input type="radio" id="id_birthday_radio1"
-														name="birthday_radio" value="1" class="onOffRadio"><span
-														class="radio_label">指定</span></td>
-													<td><input type="radio" id="id_birthday_radio1"
-														name="birthday_radio" value="2" class="onOffRadio"
-														checked="checked"><span class="radio_label">指定なし</span>
+														name="birthday_radio" value="2" class="onOffRadio" <%= birthday_radio2 %>>
+														<span class="radio_label">指定なし</span>
 													</td>
 												</tr>
 											</table>
 										</td>
 									</tr>
 									<tr>
-										<td class="value"><input type="date"
-											id="id_birthday_from" name="birthday_from" value="<%= birthday_from %>">
-											<br> ～ <br> <input type="date" id="id_birthday_to"
-											name="birthday_to" value="<%= birthday_to %>"></td>
+										<td class="value">
+											<input type="date" id="id_birthday_from" name="birthday_from" value="<%= birthday_from %>">
+											<br> ～ <br> 
+											<input type="date" id="id_birthday_to" name="birthday_to" value="<%= birthday_to %>">
+										</td>
 									</tr>
 								</table>
 							</div>
@@ -383,12 +355,10 @@ div.main_button input {
 										<td class="value">
 											<table class="radio_base">
 												<tr>
-													<td><input type="radio" id="listener_count_radio1"
-														name="listener_count_radio" value="1" class="onOffRadio"><span
-														class="radio_label">指定</span></td>
-													<td><input type="radio" id="listener_count_radio2"
-														name="listener_count_radio" value="2" class="onOffRadio"
-														checked="checked"><span class="radio_label">指定なし</span>
+													<td><input type="radio" id="listener_count_radio1" name="listener_count_radio" value="1" class="onOffRadio" <%= listener_count_radio1 %>>
+														<span class="radio_label">指定</span></td>
+													<td><input type="radio" id="listener_count_radio2" name="listener_count_radio" value="2" class="onOffRadio" <%= listener_count_radio2 %>>
+													<span class="radio_label">指定なし</span>
 													</td>
 												</tr>
 											</table>
@@ -396,9 +366,9 @@ div.main_button input {
 									</tr>
 									<tr>
 										<td class="value"><input type="text"
-											id="id_listener_count_from" name="listener_count_from"
-											value="<%= listener_count_from %>"> <br> ～ <br> <input type="text"
-											id="id_listener_count_to" name="listener_count_to" value="<%= listener_count_to %>">
+											id="id_listener_count_from" name="listener_count_from" value=<%= listener_count_from %>>
+											<br> ～ <br>
+											<input type="text" id="id_listener_count_to" name="listener_count_to" value=<%= listener_count_to %>>
 										</td>
 									</tr>
 								</table>
@@ -412,10 +382,8 @@ div.main_button input {
 								<table>
 									<tr>
 										<td class="label">言語</td>
-										<td class="value"><input type="checkbox"
-											id="id_language_type_jp" name="language_type_jp" value="002">日本語<br>
-											<input type="checkbox" id="id_language_type_en"
-											name="language_type_en" value="001">英語</td>
+										<td class="value"><input type="checkbox" id="id_language_type_jp" name="language_type_jp" value="002" <%= language_type_jp %>>日本語<br>
+											<input type="checkbox" id="id_language_type_en" name="language_type_en" value="001" <%= language_type_en %>>英語</td>
 									</tr>
 								</table>
 							</div>
@@ -448,7 +416,7 @@ div.main_button input {
 
 	<!-- ページトップへjavaScript -->
 	<div id="pagetop">
-		<a href="#"><img alt="ページトップ" src="/web/images/pagetop.png"></a>
+		<a href="#"><img alt="ページトップ" src="/webA/images/pagetop.png"></a>
 	</div>
 
 	<!-- フッター -->

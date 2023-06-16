@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
-<%@ page import="web.ComposerRecord_s"%>
+<%@ page import="jp.excd.servlet.ComposerRecord_s"%>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -108,11 +108,11 @@ div.message_with_right_button div.right_button input {
 	content="「メロコ」はiPhone,iPadで動作する作曲アプリです。思いついたメロディーをどんどん曲として保存していきましょう。">
 
 <title>作曲家検索</title>
-<link rel="stylesheet" href="/web/css/main.css">
+<link rel="stylesheet" href="/webA/css/main.css">
 
-<script src="/web/js/jquery-3.3.0.min.js"></script>
-<script src="/web/js/util.js"></script>
-<script src="/web/js/input.js"></script>
+<script src="/webA/js/jquery-3.3.0.min.js"></script>
+<script src="/webA/js/util.js"></script>
+<script src="/webA/js/input.js"></script>
 <body>
 	<!-- メニューのキャンセルレイヤの起点 -->
 	<div id="layer_marker"></div>
@@ -124,7 +124,7 @@ div.message_with_right_button div.right_button input {
 	<div class="title_bar">
 		<p class="page_title">作曲家検索</p>
 
-		<form method="post" action="/web/ja/S00008/back">
+		<form method="post" action="/webA/ja/S00008/back">
 			<input name="nickname_radio" type="hidden"
 				value="<%=request.getAttribute("nickname_radio")%>"> <input
 				name="nickname_type_radio" type="hidden"
@@ -162,7 +162,7 @@ div.message_with_right_button div.right_button input {
 			<input type="submit" id="back" value="&lt;&nbsp;戻る" class="back"></input>
 		</form>
 		<a href="#" id="menu_open"> <img alt="メニュー"
-			src="/web/images/menu.png" class="menu-icon">
+			src="/webA/images/menu.png" class="menu-icon">
 		</a>
 	</div>
 
@@ -171,7 +171,7 @@ div.message_with_right_button div.right_button input {
 	<div id="menu_marker"></div>
 
 	<!-- フォーム -->
-	<form name="main" method="post" action="/web/ja/S00008/change">
+	<form name="main" method="post" action="/webA/ja/S00008/change">
 	<input name="nickname_radio" type="hidden"
 				value="<%=request.getAttribute("nickname_radio")%>"> <input
 				name="nickname_type_radio" type="hidden"
@@ -230,7 +230,7 @@ div.message_with_right_button div.right_button input {
 					for (ComposerRecord_s record : composer) {
 					%>
 					<p>
-						<a href="/web/ja/S00004"
+						<a href="/webA/ja/S00004"
 							style="font-size: 20pt; color: #0000FF;"><%=record.getNickname()%></a>
 					</p>
 					<label for="name"><span class="font_test">登録日：</span></label>
@@ -263,86 +263,10 @@ div.message_with_right_button div.right_button input {
 			<br>
 		</form>
 
-
-		<form id="formBack" method="POST" action="/web/ja/S00008/back">
-			<input name="nickname_radio" type="hidden"
-				value="<%=request.getAttribute("nickname_radio")%>"> <input
-				name="nickname_type_radio" type="hidden"
-				value="<%=request.getAttribute("nickname_type_radio")%>"> <input
-				name="nickname" type="hidden"
-				value="<%=request.getAttribute("nickname")%>"> <input
-				name="joined_date_radio" type="hidden"
-				value="<%=request.getAttribute("joined_date_radio")%>"> <input
-				name="joined_date_from" type="hidden"
-				value="<%=request.getAttribute("joined_date_from")%>"> <input
-				name="joined_date_to" type="hidden"
-				value="<%=request.getAttribute("joined_date_to")%>"> <input
-				name="gender_radio" type="hidden"
-				value="<%=request.getAttribute("gender_radio")%>"> <input
-				name="gender" type="hidden"
-				value="<%=request.getAttribute("gender")%>"> <input
-				name="birthday_radio" type="hidden"
-				value="<%=request.getAttribute("birthday_radio")%>"> <input
-				name="birthday_from" type="hidden"
-				value="<%=request.getAttribute("birthday_from")%>"> <input
-				name="birthday_to" type="hidden"
-				value="<%=request.getAttribute("birthday_to")%>"> <input
-				name="listener_count_radio" type="hidden"
-				value="<%=request.getAttribute("listener_count_radio")%>"> <input
-				name="listener_count_from" type="hidden"
-				value="<%=request.getAttribute("listener_count_from")%>"> <input
-				name="listener_count_to" type="hidden"
-				value="<%=request.getAttribute("listener_count_to")%>"> <input
-				name="language_type_jp" type="hidden"
-				value="<%=request.getAttribute("language_type_jp")%>"> <input
-				name="language_type_en" type="hidden"
-				value="<%=request.getAttribute("language_type_en")%>"> <input
-				name="sort_order" type="hidden"
-				value="<%=request.getAttribute("sort_order")%>">
-		</form>
-
-		<form id="formChange" method="POST" action="/web/ja/S00008/change">
-			<input name="nickname_radio" type="hidden"
-				value="<%=request.getAttribute("nickname_radio")%>"> <input
-				name="nickname_type_radio" type="hidden"
-				value="<%=request.getAttribute("nickname_type_radio")%>"> <input
-				name="nickname" type="hidden"
-				value="<%=request.getAttribute("nickname")%>"> <input
-				name="joined_date_radio" type="hidden"
-				value="<%=request.getAttribute("joined_date_radio")%>"> <input
-				name="joined_date_from" type="hidden"
-				value="<%=request.getAttribute("joined_date_from")%>"> <input
-				name="joined_date_to" type="hidden"
-				value="<%=request.getAttribute("joined_date_to")%>"> <input
-				name="gender_radio" type="hidden"
-				value="<%=request.getAttribute("gender_radio")%>"> <input
-				name="gender" type="hidden"
-				value="<%=request.getAttribute("gender")%>"> <input
-				name="birthday_radio" type="hidden"
-				value="<%=request.getAttribute("birthday_radio")%>"> <input
-				name="birthday_from" type="hidden"
-				value="<%=request.getAttribute("birthday_from")%>"> <input
-				name="birthday_to" type="hidden"
-				value="<%=request.getAttribute("birthday_to")%>"> <input
-				name="listener_count_radio" type="hidden"
-				value="<%=request.getAttribute("listener_count_radio")%>"> <input
-				name="listener_count_from" type="hidden"
-				value="<%=request.getAttribute("listener_count_from")%>"> <input
-				name="listener_count_to" type="hidden"
-				value="<%=request.getAttribute("listener_count_to")%>"> <input
-				name="language_type_jp" type="hidden"
-				value="<%=request.getAttribute("language_type_jp")%>"> <input
-				name="language_type_en" type="hidden"
-				value="<%=request.getAttribute("language_type_en")%>"> <input
-				name="sort_order" type="hidden"
-				value="<%=request.getAttribute("sort_order")%>">
-		</form>
-
-
 		<!-- メインボタン -->
 
 		<div class="main_button">
-			<form method="post" action="/web/ja/S00008/change">
+			<form method="post" action="/webA/ja/S00008/change">
 			<input name="nickname_radio" type="hidden"
 				value="<%=request.getAttribute("nickname_radio")%>"> <input
 				name="nickname_type_radio" type="hidden"
@@ -384,7 +308,7 @@ div.message_with_right_button div.right_button input {
 
 	<!-- ページトップへjavaScript -->
 	<div id="pagetop">
-		<a href="#"><img alt="ページトップ" src="/web/images/pagetop.png"></a>
+		<a href="#"><img alt="ページトップ" src="/webA/images/pagetop.png"></a>
 	</div>
 
 	<!-- フッター -->

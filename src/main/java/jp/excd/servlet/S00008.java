@@ -27,7 +27,7 @@ public class S00008 extends HttpServlet {
 		//--------------------------------------------
 		String URI = request.getRequestURI();
 
-		if (("/web/ja/S00008/back".equals(URI) || "/web/ja/S00008/change".equals(URI)) == false) {
+		if (("/webA/ja/S00008/back".equals(URI) || "/webA/ja/S00008/change".equals(URI)) == false) {
 			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
 		}
 

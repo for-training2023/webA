@@ -76,7 +76,7 @@ public class S00007 extends HttpServlet {
 		String URL = request.getRequestURI();
 
 		// (1) 接続URLが「/ja/S00007/searh」以外の場合は、404.jspへフォワーディングする。
-		if ("/web/ja/S00007/search".equals(URL)) {
+		if ("/webA/ja/S00007/search".equals(URL)) {
 		} else {
 			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
 		}
@@ -130,8 +130,6 @@ public class S00007 extends HttpServlet {
 
 		Integer rf = null;
 		Integer rt = null;
-		Double rAf = null;
-		Double rAt = null;
 
 		//-----------------------------------------------------------------------------------------------
 		// 入力チェック
@@ -195,7 +193,7 @@ public class S00007 extends HttpServlet {
 
 		// (6) 登録日FROM、公開日TOについてエラー判定を行う。
 		if ("1".equals(joined_date_radio)) {
-			if (joined_date_from == null || "".equals(joined_date_from) &&	(joined_date_to == null || "".equals(joined_date_to))) {
+			if ((joined_date_from == null || "".equals(joined_date_from)) &&	((joined_date_to == null || "".equals(joined_date_to)))) {
 				//エラー
 				String s = this.getDescription(con, "ES00007_004", "002");
 				request.setAttribute("error", s);
@@ -212,16 +210,35 @@ public class S00007 extends HttpServlet {
 
 
 		// (7) 登録日FROM、登録日TOについてエラー判定を行う。
+		// 上限値が未入力の場合
 		if ("1".equals(joined_date_radio)) {
+			if("".equals(joined_date_to) && !("".equals(joined_date_from))) {
 			int checkResult = joined_date_to.compareTo(joined_date_from);
-			if (checkResult < 0){
-				// エラー
-				String s = this.getDescription(con, "ES00007_005", "002");
-				request.setAttribute("error", s);
-				request.setAttribute("joined_date_is_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
+				if (checkResult > 0){
+					// エラー
+					String s = this.getDescription(con, "ES00007_005", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("joined_date_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
+			}
+		}
+		
+		// 下限値が未入力の場合
+		if ("1".equals(joined_date_radio)) {
+			if(!("".equals(joined_date_to)) && "".equals(joined_date_from)) {
+			int checkResult = joined_date_to.compareTo(joined_date_from);
+				if (checkResult < 0){
+					// エラー
+					String s = this.getDescription(con, "ES00007_005", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("joined_date_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
 			}
 		}
 
@@ -260,8 +277,7 @@ public class S00007 extends HttpServlet {
 
 		// (10) 誕生日FROM、誕生日TOについてエラー判定を行う。
 		if ("1".equals(birthday_radio)) {
-			if (birthday_from == null || "".equals(birthday_from) &&
-					(birthday_to == null || "".equals(birthday_to))) {
+			if ((birthday_from == null || "".equals(birthday_from)) && (birthday_to == null || "".equals(birthday_to))) {
 				//エラー
 				String s = this.getDescription(con, "ES00007_008", "002");
 				request.setAttribute("error", s);
@@ -278,16 +294,33 @@ public class S00007 extends HttpServlet {
 		}
 
 		// (11) 誕生日FROM、誕生日TOについてエラー判定を行う。
+		//上限値が未入力の場合
 		if ("1".equals(birthday_radio)) {
-			int checkResult = birthday_to.compareTo(birthday_from);
-			if (checkResult < 0){
-				// エラー
-				String s = this.getDescription(con, "ES00007_009", "002");
-				request.setAttribute("error", s);
-				request.setAttribute("birthday_is_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
+			if("".equals(birthday_to) && !("".equals(birthday_from))) {
+				int checkResult = birthday_to.compareTo(birthday_from);
+				if (checkResult > 0){
+					// エラー
+					String s = this.getDescription(con, "ES00007_009", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("birthday_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
+			}
+
+			// 下限値が未入力の場合
+			if(!("".equals(birthday_to)) && "".equals(birthday_from)) {
+				int checkResult = birthday_to.compareTo(birthday_from);
+				if (checkResult < 0){
+					// エラー
+					String s = this.getDescription(con, "ES00007_005", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("joined_date_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
 			}
 		}
 
@@ -333,8 +366,7 @@ public class S00007 extends HttpServlet {
 
 		// (14) リスナー数FROM リスナー数TO についてエラー判定を行う。
 		if ("1".equals(listener_count_radio)) {
-			if ((listener_count_from == null || "".equals(listener_count_from) &&
-					(listener_count_to == null || "".equals(listener_count_to)))) {
+			if ((listener_count_from == null || "".equals(listener_count_from)) && (listener_count_to == null || "".equals(listener_count_to))) {
 				//エラー
 				String s = this.getDescription(con, "ES00007_012", "002");
 				request.setAttribute("error", s);
@@ -352,30 +384,40 @@ public class S00007 extends HttpServlet {
 		}
 
 
-		// (15) リスナー数FROM　リスナー数TO（逆転チェック）
+		// (15) リスナー数FROM、リスナー数TO（逆転チェック）
 		if ("1".equals(listener_count_radio)) {
-			if (listener_count_from != null) {
+			if (!("".equals(listener_count_from))) {
 				rf = Integer.parseInt(listener_count_from);
 			}
-			if (listener_count_to != null) {
+			if (!("".equals(listener_count_to))) {
 				rt = Integer.parseInt(listener_count_to);
 			}
-			if (rAf != null || rAt != null || rf > rt) {
-				//エラー
-				String s = this.getDescription(con, "ES00007_013", "002");
-				request.setAttribute("error", s);
-				request.setAttribute("listener_count_is_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
-
-			} else {
-				//処理続行
+			//上限値が未入力の場合
+			if("".equals(listener_count_to) && !("".equals(listener_count_from)))
+				if (rf < rt) {
+					//エラー
+					String s = this.getDescription(con, "ES00007_013", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("listener_count_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				} else {
+					//処理続行
+				}
+			//下限値が未入力の場合
+			if(!("".equals(listener_count_to)) && ("".equals(listener_count_from))){
+				if (rf > rt) {
+					//エラー
+					String s = this.getDescription(con, "ES00007_013", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("listener_count_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
 			}
-		} else {
-			//処理続行
 		}
-
 
 		// (16)	言語区分について、エラー判定を行う。
 		if ("002".equals(language_type_jp)) {
@@ -390,10 +432,8 @@ public class S00007 extends HttpServlet {
 			} else {
 				// 処理継続
 			}
-		}
-		
-		if(!"002".equals(language_type_jp)) {
-			if(!"001".equals(language_type_en)) {
+		} else {
+			if(!("001".equals(language_type_en))) {
 				// エラー
 				String s = this.getDescription(con, "ES00007_014", "002");
 				request.setAttribute("error", s);
@@ -582,52 +622,39 @@ public class S00007 extends HttpServlet {
 			// 処理続行
 		}
 
-		// (5) 登録日FROMのSQLへの連結及びプレイスホルダへの設定
+		// (5) 登録日FROM,TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_from == null || "".equals(joined_date_from)) {
 				//処理続行
 			} else if (list.size() == 0) {
 				//WHERE連結
 				query = query + sql3;
+				query = query + sql8;
 			} else {
 				//AND連結
 				query = query + sql7;
-			}
-			query = query + sql8;
-			//プレイスホルダに保持
-			PlaceHolderInput phi = new PlaceHolderInput();
-			phi.setType("3");
-			phi.setStringValue(joined_date_from);
-			list.add(phi);
-		} else {
-			//処理続行
-		}
-
-		// (6) 登録日TOのSQLへの連結及びプレイスホルダへの設定
-		if ("1".equals(joined_date_radio)) {
-			if (joined_date_to == null || "".equals(joined_date_to)) {
+				query = query + sql8;
+			} if (joined_date_to == null || "".equals(joined_date_to)) {
 				//処理続行
 			} else if (this.isNumber(joined_date_to)) {
 				if (list.size() == 0) {
 					//WHERE連結
 					query = query + sql3;
+					query = query + sql10;
 				} else {
 					//AND連結
 					query = query + sql9;
+					query = query + sql10;
 				}
-
-				query = query + sql10;
-
-				//プレイスホルダに保持
-				PlaceHolderInput phi = new PlaceHolderInput();
-				phi.setType("3");
-				phi.setStringValue(joined_date_to);
-				list.add(phi);
 			} else {
 				//処理続行
 			}
-		} else {
-
+			//プレイスホルダに保持
+			PlaceHolderInput phi = new PlaceHolderInput();
+			phi.setType("3");
+			phi.setStringValue(joined_date_from);
+			phi.setStringValue(joined_date_to);
+			list.add(phi);
 		}
 
 		// (7) 性別のSQLへの連結及びプレイスホルダへの設定
@@ -651,99 +678,74 @@ public class S00007 extends HttpServlet {
 			//処理続行
 		}
 
-		// (8) 誕生日FROMのSQLへの連結及びプレイスホルダへの設定
+		// (8) 誕生日FROM,TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(birthday_radio)) {
 			if (birthday_from == null || "".equals(birthday_from)) {
 				//処理続行
 			} else if (list.size() == 0) {
-				//WHEREを連結
+				//WHERE連結
 				query = query + sql3;
+				query = query + sql14;
 			} else {
 				//AND連結
 				query = query + sql13;
+				query = query + sql14;
+			} if (birthday_to == null || "".equals(birthday_to)) {
+				//処理続行
+			} else if (this.isNumber(birthday_to)) {
+				if (list.size() == 0) {
+					//WHERE連結
+					query = query + sql3;
+					query = query + sql16;
+				} else {
+					//AND連結
+					query = query + sql15;
+					query = query + sql16;
+				}
+			} else {
+				//処理続行
 			}
-			query = query + sql14;
-
 			//プレイスホルダに保持
 			PlaceHolderInput phi = new PlaceHolderInput();
 			phi.setType("3");
 			phi.setStringValue(birthday_from);
-			list.add(phi);
-		} else {
-			// 処理続行
-		}
-
-		// (9) 誕生日TOのSQLへの連結及びプレイスホルダへの設定
-		if ("1".equals(birthday_radio)) {
-			if (birthday_to == null || "".equals(birthday_to)) {
-				//処理続行
-			}else if (list.size() == 0) {
-				//WHEREを連結
-				query = query + sql3;
-			} else {
-				//AND連結
-				query = query + sql15;
-			}
-			query = query + sql16;
-
-			//プレイスホルダに保持
-			PlaceHolderInput phi = new PlaceHolderInput();
-			phi.setType("3");
 			phi.setStringValue(birthday_to);
 			list.add(phi);
-		} else {
-			// 処理続行
 		}
 
-		// (10) リスナー数FROMのSQLへの連結及びプレイスホルダへの設定
+		// (10) リスナー数FROM,TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(listener_count_radio)) {
 			if (listener_count_from == null || "".equals(listener_count_from)) {
 				//処理続行
-			} else if (this.isNumber(listener_count_from)) {
-				if (list.size() == 0) {
-					//WHEREを連結
-					query = query + sql3;
-				} else {
-					//AND連結
-					query = query + sql17;
-				}
+			} else if (list.size() == 0) {
+				//WHERE連結
+				query = query + sql3;
 				query = query + sql18;
-
-				PlaceHolderInput phi = new PlaceHolderInput();
-				phi.setType("3");
-				phi.setStringValue(listener_count_from);
-				list.add(phi);
 			} else {
-				//処理続行
-			}
-		} else {
-
-		}
-
-		// (11) リスナー数TOのSQLへの連結及びプレイスホルダへの設定
-		if ("1".equals(listener_count_radio)) {
-			if (listener_count_to == null || "".equals(listener_count_to)) {
+				//AND連結
+				query = query + sql17;
+				query = query + sql18;
+			} if (birthday_to == null || "".equals(listener_count_to)) {
 				//処理続行
 			} else if (this.isNumber(listener_count_to)) {
 				if (list.size() == 0) {
-					//WHEREを連結
+					//WHERE連結
 					query = query + sql3;
+					query = query + sql20;
 				} else {
 					//AND連結
 					query = query + sql19;
+					query = query + sql20;
 				}
-				query = query + sql20;
-
-				PlaceHolderInput phi = new PlaceHolderInput();
-				phi.setType("3");
-				phi.setStringValue(listener_count_to);
-				list.add(phi);
-
 			} else {
 				//処理続行
 			}
-		} else {
-			//処理続行
+			//プレイスホルダに保持
+			PlaceHolderInput phi = new PlaceHolderInput();
+			phi.setType("3");
+			phi.setStringValue(listener_count_from);
+			phi.setStringValue(listener_count_to);
+			list.add(phi);
 		}
 
 		// (12) 言語区分のSQLへの連結及びプレイスホルダへの設定
@@ -874,15 +876,6 @@ public class S00007 extends HttpServlet {
 		}
 	}
 
-	/*private boolean isDouble(String num) {
-		try {
-			Double.parseDouble(num);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; // エラーにならないように、とりあえずダミー
-		}
-	}*/
-
 	private boolean isDateValue(String value) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -893,12 +886,4 @@ public class S00007 extends HttpServlet {
 			return false;
 		}
 	}
-
-	/*	private long getDateValue(String value) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = format.parse(value);
-		long miliTime = dt.getTime();
-		long retValue = (miliTime / 1000);
-		return retValue;
-	}*/
 }

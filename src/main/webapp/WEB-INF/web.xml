@@ -13,7 +13,7 @@
 
 	<servlet>
 		<servlet-name>S00007</servlet-name>
-		<servlet-class>webA.S00007</servlet-class>
+		<servlet-class>jp.excd.servlet.S00007</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -23,7 +23,7 @@
 
 	<servlet>
 		<servlet-name>S00008</servlet-name>
-		<servlet-class>webA.S00008</servlet-class>
+		<servlet-class>jp.excd.servlet.S00008</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -33,7 +33,7 @@
 
 	<servlet>
 		<servlet-name>S00009</servlet-name>
-		<servlet-class>webA.S00009</servlet-class>
+		<servlet-class>jp.excd.servlet.S00009</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
