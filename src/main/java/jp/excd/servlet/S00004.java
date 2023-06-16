@@ -1,8 +1,8 @@
 package jp.excd.servlet;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,22 +66,21 @@ public class S00004 extends HttpServlet {
 		
 		// 接続URL受け取り
 		String URL = request.getRequestURI();
-		String unique_str = URL.substring(16);
+		
+		String decodeResult = URLDecoder.decode(URL,"UTF-8");
+		
+		String unique_str = decodeResult.substring(16);
 
 		// 接続URLが「/ja/S00004/*」以外の場合は、404.jspへフォワーディングする。
 		if (URL.matches("(/webA/ja/S00004/).+")) {
 
-			
-
-
 
 			//セレクト文でカラムを指定
-			String sql = "select composer.unique_code, composer.nickname, composer.message, composer.gender, composer.birthday, composer.fb_link, composer.tw_link, composer.joined_date, composer.other_link_url, composer.other_link_description, song.title, song.image_file_name, song.rating_total, song.rating_average, song.total_listen_count, song.release_datetime from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
+			String sql = "select composer.unique_code, composer.nickname, composer.message, composer.gender, composer.birthday, composer.fb_link, composer.tw_link, composer.joined_date, composer.other_link_url, composer.other_link_description, song.ID, song.title, song.image_file_name, song.rating_total, song.rating_average, song.total_listen_count, song.release_datetime from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
 			String sql_count = "select count(unique_code) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
 			String sql_ratingsum = "select sum(rating_total) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
 			String sql_ratingavg = "select avg(rating_average) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
 			String sql_listensum = "select sum(total_listen_count) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-
 
 
 			// プリペアドステートメント
@@ -90,7 +89,6 @@ public class S00004 extends HttpServlet {
 			PreparedStatement pstmt3 = null;
 			PreparedStatement pstmt4 = null;
 			PreparedStatement pstmt5 = null;
-
 
 
 			// ResultSet
@@ -124,6 +122,7 @@ public class S00004 extends HttpServlet {
 			rs4 = pstmt4.executeQuery();
 			rs5 = pstmt5.executeQuery();
 
+			
 			List<ComposerRecordY> composerList = new ArrayList<ComposerRecordY>();
 
 
@@ -141,11 +140,17 @@ public class S00004 extends HttpServlet {
 
 				//メッセージ
 				String message = rs.getString("message");
+				if(message == null) {
+					message = " ";
+				}
 				cr.setMessage(message);
 
 				//性別
 				String gender = rs.getString("gender");
 				gender = C0005.getExchangeGender(gender);
+				if(gender == null) {
+					gender = "  ";
+				}
 				cr.setGender(gender);
 
 				//誕生日
@@ -157,16 +162,26 @@ public class S00004 extends HttpServlet {
 
 				//Facebookリンク
 				String fb_link = rs.getString("fb_link");
+				if(fb_link == null) {
+					fb_link = " ";
+				}
 				cr.setFb_link(fb_link);
 
 				//Twitterリンク
 				String tw_link = rs.getString("tw_link");
+				if(tw_link == null) {
+					tw_link = " ";
+				}
 				cr.setTw_link(tw_link);
 
 				//登録日
 				String joined_date = rs.getString("joined_date");
 				joined_date = ExchangeJoined_date(joined_date);
 				cr.setJoined_date(joined_date);
+				
+				//曲ID
+				int ID = rs.getInt("ID");
+				cr.setID(ID);
 
 				//曲名
 				String title = rs.getString("title");
@@ -195,6 +210,9 @@ public class S00004 extends HttpServlet {
 
 				//関連リンク文字列
 				String other_link_description = rs.getString("other_link_description");
+				if(other_link_description == null) {
+					other_link_description = " ";
+				}
 				cr.setOther_link_description(other_link_description);
 
 				//再生回数
@@ -212,18 +230,16 @@ public class S00004 extends HttpServlet {
 
 
 			}
-
-
-
+			
 			request.setAttribute("composerList", composerList);	
-
-
+			
+			
 			//レコードの該当件数
 			String count = null;
 
 			while(rs2.next()) {
 				count = rs2.getString("count(unique_code)");
-
+				
 			}
 			request.setAttribute("count", count);	
 
@@ -258,18 +274,16 @@ public class S00004 extends HttpServlet {
 			}
 			request.setAttribute("sum_str2", sum_str2);	
 
-
+			
+			//S00004.jspに遷移
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00004.jsp" ).forward( request, response );
 
 
 		} else {
+			//404.jspに遷移
 			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
 		}
-
-
-
-
-
+		
 	}
 
 
@@ -281,8 +295,8 @@ public class S00004 extends HttpServlet {
 		double d_releaseDay = 0;
 
 		//現在のエポック秒を取得
-		Date date = new Date(0);
-		Double nowEpoch = (double) date.getTime();
+//		Date date = new Date(0);
+//		Double nowEpoch = (double) date.getTime();
 
 		//差分を算出
 		Double diff = (1687659341 - release_datetime) * 1000;
@@ -375,11 +389,13 @@ public class S00004 extends HttpServlet {
 		}
 		return resultVal;
 	}
-
+	
+	//カンマの挿入
 	private static String commaSeparatedString(long i) {
 		return String.format("%,d", i);
 	}
 
+	//少数点第二位の四捨五入
 	private static double RoundHalfUp(double i) {
 		i = i *10;
 		i = Math.round(i);
@@ -387,6 +403,7 @@ public class S00004 extends HttpServlet {
 		return i;
 	}
 
+	//8桁の数字列に"/"を挿入
 	private static String ExchangeBirthday(String birthday) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(birthday.substring(0,4) + "/");
@@ -395,6 +412,7 @@ public class S00004 extends HttpServlet {
 		return sb.toString();
 	}
 
+	//8桁の数字列に"年,月,日"を挿入
 	private static String ExchangeJoined_date(String joined_date) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(joined_date.substring(0,4) + "年");
@@ -402,11 +420,6 @@ public class S00004 extends HttpServlet {
 		sb.append(joined_date.substring(6,8) + "日");
 		return sb.toString();
 	}
-
-	//	private static long SumRating_total(long rating_total) {
-	//		for(i=0; i<=)
-	//		composerList.get(0).getRating_total();
-	//	}
 
 
 	public void doPost(

@@ -109,9 +109,9 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="value"><span class="label_top">性別：</span> <span
 						class="value"><%=composerList.get(0).getGender()%></span> <span class="label">誕生日：</span> <span
 						class="value"><%=composerList.get(0).getBirthday()%></span> <br> <span class="label_top">FB：</span>
-						<span class="value"><a href="https://google.co.jp"><%=composerList.get(0).getFb_link()%></a></span>
+						<span class="value"><a href="<%=composerList.get(0).getFb_link()%>"><%=composerList.get(0).getFb_link()%></a></span>
 						<br> <span class="label_top">Twitter：</span> <span
-						class="value"><a href="https://google.co.jp"><%=composerList.get(0).getTw_link()%></a></span>
+						class="value"><a href="<%=composerList.get(0).getTw_link()%>"><%=composerList.get(0).getTw_link()%></a></span>
 					</td>
 				</tr>
 			</table>
@@ -143,7 +143,7 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="label">関連リンク</td>
 				</tr>
 				<tr>
-					<td class="value"><a href="https://google.co.jp"><%=composerList.get(0).getOther_link_url()%></a></td>
+					<td class="value"><a href="<%=composerList.get(0).getOther_link_url()%>"><%=composerList.get(0).getOther_link_description()%></a></td>
 				</tr>
 			</table>
 		</div>
@@ -157,14 +157,12 @@ div.song_list ul li div.cell div.song3 img {
 		<div class="song_list">
 			<ul>
 			
-			<%
-						for(ComposerRecordY record : composerList){
-						%>
+			<% for(ComposerRecordY record : composerList){ %>
 				<li>
 					<div class="cell">
 						<div class="song_title"><%=record.getTitle() %></div>
 						<div class="image_base">
-							<a href="S00003.html">
+							<a href="http://localhost:8080/webA/ja/S00003/<%=record.getID() %>">
 								<div class="image song1">
 									<img alt="希望の扉" src="/webA/images/<%=record.getImage_file_name() %>"> <img
 										alt="play" class="play" src="/webA/images/play.png">
@@ -186,7 +184,7 @@ div.song_list ul li div.cell div.song3 img {
 
 		<!-- ページトップへjavaScript -->
 		<div id="pagetop" hidden>
-			<img alt="ページトップ" src="../images/pagetop.png">
+			<img alt="ページトップ" src="/webA/images/pagetop.png">
 		</div>
 
 		<!-- フッター -->

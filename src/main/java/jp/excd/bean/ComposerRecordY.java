@@ -11,6 +11,7 @@ public class ComposerRecordY {
 	private String fb_link;
 	private String tw_link;
 	private String joined_date;
+	private int ID;
 	private String title;
 	private String image_file_name;
 	private String rating_total;
@@ -100,6 +101,16 @@ public class ComposerRecordY {
 		this.joined_date = joined_date;
 	}
 
+	//return ID
+	public int getID(){
+		return ID;
+	}
+
+	//IDをセットする
+	public void setID(int ID) {
+		this.ID = ID;
+	}
+
 	//return title
 	public String getTitle(){
 		return title;
@@ -109,7 +120,7 @@ public class ComposerRecordY {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	//return image_file_name
 	public String getImage_file_name(){
 		return image_file_name;
