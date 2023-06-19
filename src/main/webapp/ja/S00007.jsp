@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="jp.excd.servlet.S00008"%>
+<% String contextPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -101,10 +102,10 @@ div.main_button input {
 	
 	String gender1 = "";
 	String gender2 = "";
-	if("1".equals((String)request.getAttribute("gender"))){
-		gender1 = "checked=\"checked\"";
+	if("2".equals((String)request.getAttribute("gender"))){
+		gender2 = "selected";
 	} else {
-		gender2 = "checked=\"checked\"";
+		gender1 = "selected";
 	}
 	
 	// (7) 「誕生日_エラー状態(birthday_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
@@ -185,9 +186,16 @@ div.main_button input {
 	content="「メロコ」はiPhone,iPadで動作する作曲アプリです。思いついたメロディーをどんどん曲として保存していきましょう。">
 <title>作曲家検索</title>
 
-<script src="../js/jquery-3.3.0.min.js"></script>
-<script src="../js/util.js"></script>
-<script src="../js/input.js"></script>
+<script src="/webA/js/jquery-3.3.0.min.js"></script>
+<script src="/webA/js/util.js"></script>
+<script src="/webA/js/input.js"></script>
+<script>
+const nickname_radio1 = document.getElementsByName("nickname_type_radio")
+
+function checkAll() {
+	nickname_radio1[0].checked = true
+}
+</script>
 
 </head>
 <body>
@@ -199,8 +207,7 @@ div.main_button input {
 		<!-- タイトルバー -->
 		<div class="title_bar">
 			<p class="page_title">作曲家検索結果</p>
-			<a href="#" id="menu_open"> <img alt="メニュー"
-				src="/webA/images/menu.png" class="menu-icon">
+			<a href="#" id="menu_open"> <img alt="メニュー" src="/webA/images/menu.png" class="menu-icon">
 			</a>
 		</div>
 
@@ -235,7 +242,7 @@ div.main_button input {
 								<table class="radio_base">
 									<tr>
 									<td><input type="radio" id="id_nickname_radio1"
-										name="nickname_radio" value="1" class="onOffRadio" <%= nickname_radio1%>>
+										name="nickname_radio" value="1" class="onOffRadio" <%= nickname_radio1%>  onclick="checkAll()">
 										<span class="radio_label">指定</span></td>
 									<td><input type="radio" id="id_nickname_radio2"
 										name="nickname_radio" value="2" class="onOffRadio" <%= nickname_radio2%>>
@@ -308,8 +315,8 @@ div.main_button input {
 								</tr>
 								<tr>
 									<td class="value"><select name="gender" tabindex="10">
-											<option id="id_gender1" value="1" >男</option>
-											<option id="id_gender2" value="2">女</option>
+											<option id="id_gender1" value="1" <%= gender1 %>>男</option>
+											<option id="id_gender2" value="2" <%= gender2 %>>女</option>
 									</select></td>
 								</tr>
 							</table>
@@ -414,6 +421,8 @@ div.main_button input {
 		</form>
 	</div>
 
+	<input type="hidden" id="context_path" value="<%= contextPath %>">
+
 	<!-- ページトップへjavaScript -->
 	<div id="pagetop">
 		<a href="#"><img alt="ページトップ" src="/webA/images/pagetop.png"></a>
@@ -421,8 +430,7 @@ div.main_button input {
 
 	<!-- フッター -->
 	<footer>
-		Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
-		Rights Reserved.
+		Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All Rights Reserved.
 	</footer>
 
 	</div>

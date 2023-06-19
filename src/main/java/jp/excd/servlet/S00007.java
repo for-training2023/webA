@@ -153,8 +153,6 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		}
 
@@ -170,8 +168,6 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		}
 
@@ -186,8 +182,6 @@ public class S00007 extends HttpServlet {
 				request.setAttribute("joined_date_is_error", "1");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
-			} else {
-				// 処理継続
 			}
 		}
 
@@ -213,7 +207,7 @@ public class S00007 extends HttpServlet {
 		// 上限値が未入力の場合
 		if ("1".equals(joined_date_radio)) {
 			if("".equals(joined_date_to) && !("".equals(joined_date_from))) {
-			int checkResult = joined_date_to.compareTo(joined_date_from);
+				int checkResult = joined_date_to.compareTo(joined_date_from);
 				if (checkResult > 0){
 					// エラー
 					String s = this.getDescription(con, "ES00007_005", "002");
@@ -225,11 +219,11 @@ public class S00007 extends HttpServlet {
 				}
 			}
 		}
-		
+
 		// 下限値が未入力の場合
 		if ("1".equals(joined_date_radio)) {
 			if(!("".equals(joined_date_to)) && "".equals(joined_date_from)) {
-			int checkResult = joined_date_to.compareTo(joined_date_from);
+				int checkResult = joined_date_to.compareTo(joined_date_from);
 				if (checkResult < 0){
 					// エラー
 					String s = this.getDescription(con, "ES00007_005", "002");
@@ -254,8 +248,6 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("cc").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		}
 
@@ -270,8 +262,6 @@ public class S00007 extends HttpServlet {
 				request.setAttribute("birthday_is_error", "1");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
-			} else {
-				// 処理継続
 			}
 		}
 
@@ -340,8 +330,6 @@ public class S00007 extends HttpServlet {
 				// 処理継続
 				rf = Integer.parseInt(listener_count_from);
 			}
-		} else {
-			//処理続行
 		}
 
 		// (13) リスナー数TOについてエラー判定を行う。
@@ -360,8 +348,6 @@ public class S00007 extends HttpServlet {
 				//処理継続
 				rt = Integer.parseInt(listener_count_to);
 			}
-		} else {
-			//処理続行
 		}
 
 		// (14) リスナー数FROM リスナー数TO についてエラー判定を行う。
@@ -379,8 +365,6 @@ public class S00007 extends HttpServlet {
 			} else if (this.isNumber(listener_count_from)) {
 				//処理続行
 			}
-		} else {
-			//処理続行
 		}
 
 
@@ -403,10 +387,9 @@ public class S00007 extends HttpServlet {
 					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 							response);
 					return;
-				} else {
-					//処理続行
 				}
 			}
+
 			//下限値が未入力の場合
 			if(!("".equals(listener_count_to)) && ("".equals(listener_count_from))){
 				rf = 0;
@@ -433,8 +416,6 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		} else {
 			if(!("001".equals(language_type_en))) {
@@ -445,11 +426,9 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		}
-		
+
 
 		// (17) SQLの組み立てと、Where句への値の設定を行う。
 		List<ComposerRecord_s> results = null;
@@ -496,18 +475,28 @@ public class S00007 extends HttpServlet {
 		List<ComposerRecord_s> newList =  new ArrayList<ComposerRecord_s>();
 
 		int counter = 0;
+		int hit = 0;
 
 		for (ComposerRecord_s l : results) {
 			counter = counter + 1;
 			// 先頭の10件のみ処理を行う。
 			if (counter > 10) {
 				counter = counter -1;
-				break;
+				continue;
 			}
 			newList.add(l);
 		}
-		String count = NumberFormat.getNumberInstance().format(counter);
-		request.setAttribute("hits", count);
+
+		for (ComposerRecord_s cr : results) {
+			hit = hit + 1;
+			// 件数の総数
+			if (hit > hit) {
+				hit = hit -1;
+				break;
+			}
+		}
+		String hits = NumberFormat.getNumberInstance().format(hit);
+		request.setAttribute("hits", hits);
 		request.setAttribute("list", newList);
 
 		// (20) S00008.にフォワーディングする。
@@ -554,9 +543,6 @@ public class S00007 extends HttpServlet {
 			String language_type_jp,
 			String language_type_en,
 			String sort_order) throws Exception {
-
-		@SuppressWarnings("unused")
-		boolean joinFlg = false; // true:結合した、false：結合していない
 
 		// (1) SQLの断片を準備する
 		String sql1 = "SELECT ID, unique_code, nickname, DATE_FORMAT(joined_date,'%Y年%c月%e日') as joined_date, gender, DATE_FORMAT(birthday,'%Y年%c月%e日') as birthday, FORMAT(listener_count,0) as listener_count, language_type ";
@@ -622,8 +608,6 @@ public class S00007 extends HttpServlet {
 				phi.setStringValue(nickname);
 				list.add(phi);
 			}
-		} else {
-			// 処理続行
 		}
 
 		// (5) 登録日FROM,TOのSQLへの連結及びプレイスホルダへの設定
@@ -634,31 +618,44 @@ public class S00007 extends HttpServlet {
 				//WHERE連結
 				query = query + sql3;
 				query = query + sql8;
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(joined_date_from);
+				list.add(phi);
 			} else {
 				//AND連結
 				query = query + sql7;
 				query = query + sql8;
-			} if (joined_date_to == null || "".equals(joined_date_to)) {
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(joined_date_from);
+				list.add(phi);
+			} 
+		}
+		if ("1".equals(joined_date_radio)) {
+			if (joined_date_to == null || "".equals(joined_date_to)) {
 				//処理続行
-			} else if (this.isNumber(joined_date_to)) {
-				if (list.size() == 0) {
-					//WHERE連結
-					query = query + sql3;
-					query = query + sql10;
-				} else {
-					//AND連結
-					query = query + sql9;
-					query = query + sql10;
-				}
+			} else if (list.size() == 0) {
+				//WHERE連結
+				query = query + sql3;
+				query = query + sql10;
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(joined_date_to);
+				list.add(phi);
 			} else {
-				//処理続行
+				//AND連結
+				query = query + sql9;
+				query = query + sql10;
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(joined_date_to);
+				list.add(phi);
 			}
-			//プレイスホルダに保持
-			PlaceHolderInput phi = new PlaceHolderInput();
-			phi.setType("3");
-			phi.setStringValue(joined_date_from);
-			phi.setStringValue(joined_date_to);
-			list.add(phi);
 		}
 
 		// (7) 性別のSQLへの連結及びプレイスホルダへの設定
@@ -678,8 +675,6 @@ public class S00007 extends HttpServlet {
 			phi.setType("3");
 			phi.setStringValue(gender);
 			list.add(phi);
-		} else {
-			//処理続行
 		}
 
 		// (8) 誕生日FROM,TOのSQLへの連結及びプレイスホルダへの設定
@@ -690,29 +685,43 @@ public class S00007 extends HttpServlet {
 				//WHERE連結
 				query = query + sql3;
 				query = query + sql14;
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(birthday_from);
+				list.add(phi);
 			} else {
 				//AND連結
 				query = query + sql13;
 				query = query + sql14;
-			} if (birthday_to == null || "".equals(birthday_to)) {
-				//処理続行
-			} else if (this.isNumber(birthday_to)) {
-				if (list.size() == 0) {
-					//WHERE連結
-					query = query + sql3;
-					query = query + sql16;
-				} else {
-					//AND連結
-					query = query + sql15;
-					query = query + sql16;
-				}
-			} else {
-				//処理続行
+				//プレイスホルダに保持
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(birthday_from);
+				list.add(phi);
 			}
 			//プレイスホルダに保持
 			PlaceHolderInput phi = new PlaceHolderInput();
 			phi.setType("3");
 			phi.setStringValue(birthday_from);
+			list.add(phi);
+		}
+
+		if ("1".equals(birthday_radio)) {
+			if (birthday_to == null || "".equals(birthday_to)) {
+				//処理続行
+			} else 	if (list.size() == 0) {
+				//WHERE連結
+				query = query + sql3;
+				query = query + sql16;
+			} else {
+				//AND連結
+				query = query + sql15;
+				query = query + sql16;
+			}
+			//プレイスホルダに保持
+			PlaceHolderInput phi = new PlaceHolderInput();
+			phi.setType("3");
 			phi.setStringValue(birthday_to);
 			list.add(phi);
 		}
@@ -729,28 +738,33 @@ public class S00007 extends HttpServlet {
 				//AND連結
 				query = query + sql17;
 				query = query + sql18;
-			} if (birthday_to == null || "".equals(listener_count_to)) {
-				//処理続行
-			} else if (this.isNumber(listener_count_to)) {
-				if (list.size() == 0) {
-					//WHERE連結
-					query = query + sql3;
-					query = query + sql20;
-				} else {
-					//AND連結
-					query = query + sql19;
-					query = query + sql20;
-				}
-			} else {
-				//処理続行
 			}
 			//プレイスホルダに保持
 			PlaceHolderInput phi = new PlaceHolderInput();
 			phi.setType("3");
 			phi.setStringValue(listener_count_from);
+			list.add(phi);
+		}
+
+		if ("1".equals(listener_count_radio)) {
+			if (birthday_to == null || "".equals(listener_count_to)) {
+				//処理続行
+			} else 	if (list.size() == 0) {
+				//WHERE連結
+				query = query + sql3;
+				query = query + sql20;
+			} else {
+				//AND連結
+				query = query + sql19;
+				query = query + sql20;
+			}
+			//プレイスホルダに保持
+			PlaceHolderInput phi = new PlaceHolderInput();
+			phi.setType("3");
 			phi.setStringValue(listener_count_to);
 			list.add(phi);
 		}
+
 
 		// (12) 言語区分のSQLへの連結及びプレイスホルダへの設定
 		if ("002".equals(language_type_jp)) {
@@ -761,16 +775,13 @@ public class S00007 extends HttpServlet {
 				//AND連結
 				query = query + sql21;
 			}
+			//プレイスホルダに保持
 			query = query + sql22;
 			PlaceHolderInput phi = new PlaceHolderInput();
 			phi.setType("3");
 			phi.setStringValue(language_type_jp);
 			list.add(phi);
-		} else {
-			//処理続行
-		}
-
-		if ("001".equals(language_type_en)) {
+		} else if ("001".equals(language_type_en)) {
 			if (list.size() == 0) {
 				//WHEREを連結
 				query = query + sql3;
@@ -779,13 +790,11 @@ public class S00007 extends HttpServlet {
 				query = query + sql21;
 			}
 			query = query + sql22;
-
+			//プレイスホルダに保持
 			PlaceHolderInput phi = new PlaceHolderInput();
 			phi.setType("3");
 			phi.setStringValue(language_type_en);
 			list.add(phi);
-		} else {
-			//処理続行
 		}
 
 		// (13) 並び順の値に従って、ORDER BY句を連結する。
@@ -862,14 +871,6 @@ public class S00007 extends HttpServlet {
 		// (18) 前処理で生成したListを呼び出し元に返却する。
 		return ComposerList;
 	}
-
-	/*	private boolean StringValue(String num) {
-		try {
-			return true;
-		} catch (NumberFormatException e) {
-			return false; // エラーにならないように、とりあえずダミー
-		}
-	}*/
 
 	private boolean isNumber(String num) {
 		try {

@@ -1,14 +1,14 @@
 package jp.excd.servlet;
 
 public class ComposerRecord_s{
-	String id;
-	String unique_code;
-	String nickname;
-	String date;
-	String gender;
-	String birthday;
-	String listener;
-	String language;
+	private String id;
+	private String unique_code;
+	private String nickname;
+	private String date;
+	private String gender;
+	private String birthday;
+	private String listener;
+	private String language;
 
 	//id
 	public void setId(String id) {

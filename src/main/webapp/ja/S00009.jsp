@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% String contextPath = request.getContextPath(); %>
     
 <!DOCTYPE html>
 <html lang="ja">
@@ -12,28 +12,12 @@
 <meta name="description"
 	content="「メロコ」はiPhone,iPadで動作する作曲アプリです。思いついたメロディーをどんどん曲として保存していきましょう。">
 <title>アプリダウンロード</title>
-<link rel="stylesheet" href="../css/main.css">
-<script src="../js/jquery-3.3.0.min.js"></script>
-<script src="../js/util.js"></script>
+<link rel="stylesheet" href="/webA/css/main.css">
+<script src="/webA/js/jquery-3.3.0.min.js"></script>
+<script src="/webA/js/util.js"></script>
 
 <!-- 画像の圧縮表示設定 -->
 <style>
-div.song_list ul li div.cell div.song1 img {
-	position: relative;
-	left: 0px;
-	top: -11px;
-	width: 275px;
-	height: 182px;
-}
-
-div.song_list ul li div.cell div.song2 img {
-	position: relative;
-	left: 0px;
-	top: -134.5px;
-	width: 275px;
-	height: 429px;
-}
-
 div.song_list ul li div.cell div.song3 img {
 	position: relative;
 	left: 0px;
@@ -56,13 +40,6 @@ div.wrapper {
   margin: 0 auto;
   max-width: 450px;
 }
-div.title_bar {
-  /* absoluteの起点 */
-  position:relative;
-  width: 100%;
-  height: 40px;
-  background-color: #e6e6fa;
-}
 div.title_bar p.sub_title {
 position:absolute;
   display: flex;
@@ -70,7 +47,7 @@ position:absolute;
   height: 40px;
   top: 0px;
   left: 120px;
-  font-size: 24px;
+  font-size: 20px;
   vertical-align: middle;
   padding-right: 62px;
   white-space: nowrap;
@@ -89,7 +66,7 @@ position:absolute;
 			<p class="sub_title">アプリダウンロード</p>
 			
 			<a href="#" id="menu_open"> <img alt="メニュー"
-				src="../images/menu.png" class="menu-icon">
+				src="/webA/images/menu.png" class="menu-icon">
 			</a>
 			<!-- メニューの起点 -->
 			<div id="menu_marker"></div>
@@ -99,19 +76,19 @@ position:absolute;
 		<div class="img">
 			<figure class="pic1">
 				<a
-					href="https://apps.apple.com/jp/app/%E3%83%A1%E3%83%AD%E3%82%B3/id1440134774">
+					href="https://itunes.apple.com/jp/app/id1440134774?mt=8">
 					<img alt="melokoicon" class="melokoicon"
-					src="../images/melokoIcon.png" width="100" height="100">
+					src="/webA/images/melokoIcon.png" width="100" height="100">
 				</a>
 			</figure>
 			<br> <a
-				href="https://apps.apple.com/jp/app/%E3%83%A1%E3%83%AD%E3%82%B3/id1440134774">
-				<img alt="melokoicon" class="app" src="../images/applestore.png">
+				href="https://itunes.apple.com/jp/app/id1440134774?mt=8">
+				<img alt="melokoicon" class="app" src="/webA/images/applestore.png">
 			</a>
 		</div>
 		<!-- ページトップへjavaScript -->
 		<div id="pagetop" hidden>
-			<img alt="ページトップ" src="../images/pagetop.png">
+			<img alt="ページトップ" src="/webA/images/pagetop.png">
 		</div>
 		<!-- フッター -->
 		<footer>
@@ -120,5 +97,7 @@ position:absolute;
 		</footer>
 
 	</div>
+	
+	<input type="hidden" id="context_path" value="<%= contextPath %>">
 </body>
 </html>

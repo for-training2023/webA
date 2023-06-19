@@ -18,7 +18,7 @@
 
 	<servlet-mapping>
 		<servlet-name>S00007</servlet-name>
-		<url-pattern>/ja/S00007/search</url-pattern>
+		<url-pattern>/ja/S00007/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
