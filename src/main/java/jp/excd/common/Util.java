@@ -61,18 +61,18 @@ public class Util {
 	
 
 	/**
-	 * 引数の画像ファイル名の先頭に「../images/」を付加し、ファイル名含めた相対パスを返却する
+	 * 引数の画像ファイル名の先頭に「/webA/images/」を付加し、ファイル名含めた絶対パスを返却する
 	 * @param imageFileName 画像ファイル名
-	 * @return 画像ファイルへの相対パス
+	 * @return 画像ファイルへの絶対パス
 	 */
 	public static String imageFilePathFormat(String imageFileName) {
 		String imageFilePath = ""; //DBにファイル名が保存されていない場合は空文字を返却する
 
 		if(!Util.isNullOrEmpty(imageFileName)){
-			// jspから画像ファイルへの相対パスを設定
+			// jspから画像ファイルへの絶対パスを設定(相対パスだと正常に動かない事象が発生しているため)
 			// 絶対パスの生成にはコンテキストパスrequest.getContextPath()の取得が必要で、
-			// 仮引数requestを追加する実装が面倒なので、今回は相対パスで実装
-			imageFilePath = "../images/" + imageFileName;
+			// 仮引数requestを追加する実装が面倒なので、今回はコンテキストルートべた書きで実装
+			imageFilePath = "/webA/images/" + imageFileName;
 		}
 		return imageFilePath;
 	}
