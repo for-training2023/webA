@@ -21,28 +21,10 @@
 <script src="/webA/js/util.js"></script>
 <!-- 画像の圧縮表示設定 -->
 <style>
-div.song_list ul li div.cell div.song1 img {
-	position: relative;
-	left: 0px;
-	top: -11px;
-	width: 275px;
-	height: 182px;
-}
-
-div.song_list ul li div.cell div.song2 img {
-	position: relative;
-	left: 0px;
-	top: -134.5px;
-	width: 275px;
-	height: 429px;
-}
-
-div.song_list ul li div.cell div.song3 img {
-	position: relative;
-	left: 0px;
-	top: -30.5px;
-	width: 275px;
-	height: 220px;
+img.a {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
 </head>
@@ -51,12 +33,15 @@ div.song_list ul li div.cell div.song3 img {
 
 	<%
 		List<ComposerRecordY> composerList = (List<ComposerRecordY>) request.getAttribute("composerList");
-		String count = (String)request.getAttribute("count");
+		int count = (int)request.getAttribute("count");
 		String sum_str1 = (String)request.getAttribute("sum_str1");
 		double avg = (double)request.getAttribute("avg");
 		String sum_str2 = (String)request.getAttribute("sum_str2");
+		
+		String contextPath = request.getContextPath();
 	%>
 
+	<input type="hidden" id="context_path" value="<%= contextPath %>">
 
 	<div id="layer_marker"></div>
 
@@ -89,6 +74,7 @@ div.song_list ul li div.cell div.song3 img {
 
 		<!-- メッセージ -->
 		<div class="single_row_table">
+			<% if(composerList.get(0).getMessage() != null){ %>
 			<table>
 				<tr>
 					<td class="label">メッセージ</td>
@@ -97,6 +83,8 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="value"><%=composerList.get(0).getMessage()%></td>
 				</tr>
 			</table>
+			<% } %>
+			
 		</div>
 
 		<!-- プロフィール -->
@@ -106,12 +94,22 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="label">プロフィール</td>
 				</tr>
 				<tr>
-					<td class="value"><span class="label_top">性別：</span> <span
-						class="value"><%=composerList.get(0).getGender()%></span> <span class="label">誕生日：</span> <span
-						class="value"><%=composerList.get(0).getBirthday()%></span> <br> <span class="label_top">FB：</span>
-						<span class="value"><a href="<%=composerList.get(0).getFb_link()%>"><%=composerList.get(0).getFb_link()%></a></span>
-						<br> <span class="label_top">Twitter：</span> <span
-						class="value"><a href="<%=composerList.get(0).getTw_link()%>"><%=composerList.get(0).getTw_link()%></a></span>
+					<td class="value">
+						<% if(composerList.get(0).getGender() != null){ %>
+						<span class="label_top">性別：</span> <span class="value"><%=composerList.get(0).getGender()%></span> 
+						<% } %>
+						
+						<% if(composerList.get(0).getBirthday() != null ){ %>
+						<span class="label_top">誕生日：</span> <span class="value"><%=composerList.get(0).getBirthday()%></span> 
+						<% } %> <br>
+						
+						<% if(composerList.get(0).getFb_link() != null){ %>
+						<span class="label_top">FB：</span> <span class="value"> <a href="<%=composerList.get(0).getFb_link()%>"> <%=composerList.get(0).getFb_link()%></a></span><br>
+						<% } %> 
+						
+						<% if(composerList.get(0).getTw_link() != null){ %>
+						<span class="label_top"> Twitter：</span> <span class="value"> <a href="<%=composerList.get(0).getTw_link()%>"> <%=composerList.get(0).getTw_link()%></a></span>
+						<% } %>
 					</td>
 				</tr>
 			</table>
@@ -124,20 +122,25 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="label">情報</td>
 				</tr>
 				<tr>
-					<td class="value"><span class="label_top">登録：</span> <span
-						class="value"><%=composerList.get(0).getJoined_date()%></span> <br> <span class="label_top">作品数：</span>
-						<span class="value"><%=count%></span> <br> <span class="label_top">総感動指数：</span>
-						<span class="value"><%=sum_str1%></span> <br> <span
-						class="label_top">平均感動指数：</span> <span class="value"><%=avg%></span> <br>
-
-						<span class="label_top">総再生回数：</span> <span class="value"><%=sum_str2%></span>
-						<br></td>
+					<td class="value">
+						<span class="label_top">登録：</span> <span class="value"><%=composerList.get(0).getJoined_date()%></span> <br> 
+						<span class="label_top">作品数：</span> 
+						<% if(composerList.get(0).getTitle() == null ){ %>
+						<span class="value"><%= count-1 %> </span> <br>
+						<% }else{ %>
+						<span class="value"><%= count %> </span> <br>
+						<% } %>
+						<span class="label_top">総感動指数：</span> <span class="value"><%=sum_str1%></span> <br> 
+						<span class="label_top">平均感動指数：</span> <span class="value"><%=avg%></span> <br>
+						<span class="label_top">総再生回数：</span> <span class="value"><%=sum_str2%></span> <br>
+					</td>
 				</tr>
 			</table>
 		</div>
 
 		<!-- 関連リンク -->
 		<div class="single_row_table">
+			<% if(composerList.get(0).getOther_link_description() != null){ %>
 			<table>
 				<tr>
 					<td class="label">関連リンク</td>
@@ -146,6 +149,7 @@ div.song_list ul li div.cell div.song3 img {
 					<td class="value"><a href="<%=composerList.get(0).getOther_link_url()%>"><%=composerList.get(0).getOther_link_description()%></a></td>
 				</tr>
 			</table>
+			<% } %>
 		</div>
 
 		<!-- 公開曲一覧のヘッダー -->
@@ -156,16 +160,17 @@ div.song_list ul li div.cell div.song3 img {
 		<!-- ソングテーブル -->
 		<div class="song_list">
 			<ul>
-			
 			<% for(ComposerRecordY record : composerList){ %>
+			<%-- 曲名がnullでなかった場合、以下の処理をする --%>
+			<% if(record.getTitle() != null){ %>
 				<li>
 					<div class="cell">
 						<div class="song_title"><%=record.getTitle() %></div>
 						<div class="image_base">
 							<a href="http://localhost:8080/webA/ja/S00003/<%=record.getID() %>">
 								<div class="image song1">
-									<img alt="希望の扉" src="/webA/images/<%=record.getImage_file_name() %>"> <img
-										alt="play" class="play" src="/webA/images/play.png">
+									<img alt="title" class = "a" src="/webA/images/<%=record.getImage_file_name() %>"> 
+									<img alt="play" class="play" src="/webA/images/play.png">
 								</div>
 							</a>
 						</div>
@@ -177,6 +182,7 @@ div.song_list ul li div.cell div.song3 img {
 						</div>
 					</div>
 				</li>
+			<%} %>
 			<%} %>
 			</ul>
 		</div>

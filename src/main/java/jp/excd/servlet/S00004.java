@@ -41,6 +41,7 @@ public class S00004 extends HttpServlet {
 			this.mainProcessForComposer(request, response, con);
 
 		} catch (Exception e) {
+			getServletConfig().getServletContext().getRequestDispatcher("/jsp/500.jsp").forward(request, response);
 			e.printStackTrace();
 
 		} finally {
@@ -60,230 +61,224 @@ public class S00004 extends HttpServlet {
 
 	private void mainProcessForComposer(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, Exception {
+
 		
-		// POSTパラメタの文字コードを指定
-		request.setCharacterEncoding("UTF-8");
+
+			// POSTパラメタの文字コードを指定
+			request.setCharacterEncoding("UTF-8");
+
+			// 接続URL受け取り
+			String URL = request.getRequestURI();
+
+			String decodeResult = URLDecoder.decode(URL,"UTF-8");
+
+			String unique_str = decodeResult.substring(16);
+
+			// 接続URLが「/ja/S00004/*」以外の場合は、404.jspへフォワーディングする。
+			if (URL.matches("(/webA/ja/S00004/).+")) {
+
+
+				//セレクト文でカラムを指定
+				String sql = "select composer.unique_code, composer.nickname, composer.message, composer.gender, composer.birthday, composer.fb_link, composer.tw_link, composer.joined_date, composer.other_link_url, composer.other_link_description, song.ID, song.title, song.image_file_name, song.rating_total, song.rating_average, song.total_listen_count, song.release_datetime from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? order by release_datetime desc;";
+				String sql_count = "select count(unique_code) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
+				String sql_ratingsum = "select sum(rating_total) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
+				String sql_ratingavg = "select avg(rating_average) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
+				String sql_listensum = "select sum(total_listen_count) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
+
+
+				// プリペアドステートメント
+				PreparedStatement pstmt = null;
+				PreparedStatement pstmt2 = null;
+				PreparedStatement pstmt3 = null;
+				PreparedStatement pstmt4 = null;
+				PreparedStatement pstmt5 = null;
+
+
+				// ResultSet
+				ResultSet rs = null;
+				ResultSet rs2 = null;
+				ResultSet rs3 = null;
+				ResultSet rs4 = null;
+				ResultSet rs5 = null;
+
+
+				// SQL解析
+				pstmt = con.prepareStatement(sql);
+				pstmt2 = con.prepareStatement(sql_count);
+				pstmt3 = con.prepareStatement(sql_ratingsum);
+				pstmt4 = con.prepareStatement(sql_ratingavg);
+				pstmt5 = con.prepareStatement(sql_listensum);
+
+
+				//SQLの?にユニークコードを挿入
+				pstmt.setString(1, unique_str);
+				pstmt2.setString(1, unique_str);
+				pstmt3.setString(1, unique_str);
+				pstmt4.setString(1, unique_str);
+				pstmt5.setString(1, unique_str);
+
+
+				// 実行
+				rs = pstmt.executeQuery();
+				rs2 = pstmt2.executeQuery();
+				rs3 = pstmt3.executeQuery();
+				rs4 = pstmt4.executeQuery();
+				rs5 = pstmt5.executeQuery();
+
+
+				List<ComposerRecordY> composerList = new ArrayList<ComposerRecordY>();
+
+
+				//実行結果受け取り
+				while(rs.next()) {
+					ComposerRecordY cr = new ComposerRecordY();
+
+					//ユニークコード
+					String unique_code = rs.getString("unique_code");
+					cr.setUnique_code(unique_code);
+
+					//ニックネーム
+					String nickname = rs.getString("nickname");
+					cr.setNickname(nickname);
+
+					//メッセージ
+					String message = rs.getString("message");
+					cr.setMessage(message);
+
+					//性別
+					String gender = rs.getString("gender");
+					gender = C0005.getExchangeGender(gender);
+					cr.setGender(gender);
+
+					//誕生日
+					String birthday = rs.getString("birthday");
+					if(birthday != null) {
+						birthday = ExchangeBirthday(birthday);
+					}
+					cr.setBirthday(birthday);
+
+					//Facebookリンク
+					String fb_link = rs.getString("fb_link");
+					cr.setFb_link(fb_link);
+
+					//Twitterリンク
+					String tw_link = rs.getString("tw_link");
+					cr.setTw_link(tw_link);
+
+					//登録日
+					String joined_date = rs.getString("joined_date");
+					joined_date = ExchangeJoined_date(joined_date);
+					cr.setJoined_date(joined_date);
+
+					//曲ID
+					int ID = rs.getInt("ID");
+					cr.setID(ID);
+
+					//曲名
+					String title = rs.getString("title");
+					cr.setTitle(title);
+
+					//イメージファイル名
+					String image_file_name = rs.getString("image_file_name");
+					if(image_file_name == null) {
+						image_file_name ="noimage.png";
+					}
+					cr.setImage_file_name(image_file_name);
+
+					//総感動指数
+					long rating_total = rs.getLong("rating_total");
+					String rating_total_str = commaSeparatedString(rating_total);
+					cr.setRating_total(rating_total_str);
+
+					//平均感動指数
+					double rating_average = rs.getDouble("rating_average");
+					rating_average = RoundHalfUp(rating_average);
+					cr.setRating_average(rating_average);
+
+					//関連リンクURL
+					String other_link_url = rs.getString("other_link_url");
+					cr.setOther_link_url(other_link_url);
+
+					//関連リンク文字列
+					String other_link_description = rs.getString("other_link_description");
+					if(other_link_description == null) {
+						other_link_description = " ";
+					}
+					cr.setOther_link_description(other_link_description);
+
+					//再生回数
+					long total_listen_count = rs.getLong("total_listen_count");
+					String total_listen_count_str = commaSeparatedString(total_listen_count);
+					cr.setTotal_listen_count(total_listen_count_str);
+
+					//公開日時
+					double release_datetime = rs.getDouble("release_datetime");
+
+					String release_datetime_str = getLastUploadTime(release_datetime);
+					cr.setRelease_datetime(release_datetime_str);
+
+					composerList.add(cr);
+
+
+				}
+				if( composerList.size() == 0) {
+					//404.jspに遷移
+					getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
+				}
+
+
+				request.setAttribute("composerList", composerList);	
+
+
+				//レコードの該当件数
+				int count = 0;
+
+				while(rs2.next()) {
+					count = rs2.getInt("count(unique_code)");
+
+				}
+				request.setAttribute("count", count);	
+
+				//総感動指数の合計
+				long sum1 = 0;
+				String sum_str1 = null;
+
+				while(rs3.next()) {
+					sum1 = rs3.getLong("sum(rating_total)");
+					sum_str1 = commaSeparatedString(sum1);
+				}
+				request.setAttribute("sum_str1", sum_str1);	
+
+
+				//平均感動指数の平均
+				double avg = 0;
+
+				while(rs4.next()) {
+					avg = rs4.getDouble("avg(rating_average)");
+					avg = RoundHalfUp(avg);
+				}
+				request.setAttribute("avg", avg);	
+
+
+				//総再生回数	
+				long sum2 = 0;
+				String sum_str2 = null;
+
+				while(rs5.next()) {
+					sum2 = rs5.getLong("sum(total_listen_count)");
+					sum_str2 = commaSeparatedString(sum2);
+				}
+				request.setAttribute("sum_str2", sum_str2);	
+
+
+				//S00004.jspに遷移
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00004.jsp" ).forward( request, response );
+
+
+			} 
+
 		
-		// 接続URL受け取り
-		String URL = request.getRequestURI();
-		
-		String decodeResult = URLDecoder.decode(URL,"UTF-8");
-		
-		String unique_str = decodeResult.substring(16);
 
-		// 接続URLが「/ja/S00004/*」以外の場合は、404.jspへフォワーディングする。
-		if (URL.matches("(/webA/ja/S00004/).+")) {
-
-
-			//セレクト文でカラムを指定
-			String sql = "select composer.unique_code, composer.nickname, composer.message, composer.gender, composer.birthday, composer.fb_link, composer.tw_link, composer.joined_date, composer.other_link_url, composer.other_link_description, song.ID, song.title, song.image_file_name, song.rating_total, song.rating_average, song.total_listen_count, song.release_datetime from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-			String sql_count = "select count(unique_code) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-			String sql_ratingsum = "select sum(rating_total) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-			String sql_ratingavg = "select avg(rating_average) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-			String sql_listensum = "select sum(total_listen_count) from composer left join song on composer.ID = song.composer_id where composer.unique_code = ? ;";
-
-
-			// プリペアドステートメント
-			PreparedStatement pstmt = null;
-			PreparedStatement pstmt2 = null;
-			PreparedStatement pstmt3 = null;
-			PreparedStatement pstmt4 = null;
-			PreparedStatement pstmt5 = null;
-
-
-			// ResultSet
-			ResultSet rs = null;
-			ResultSet rs2 = null;
-			ResultSet rs3 = null;
-			ResultSet rs4 = null;
-			ResultSet rs5 = null;
-
-
-			// SQL解析
-			pstmt = con.prepareStatement(sql);
-			pstmt2 = con.prepareStatement(sql_count);
-			pstmt3 = con.prepareStatement(sql_ratingsum);
-			pstmt4 = con.prepareStatement(sql_ratingavg);
-			pstmt5 = con.prepareStatement(sql_listensum);
-
-
-			//SQLの?にユニークコードを挿入
-			pstmt.setString(1, unique_str);
-			pstmt2.setString(1, unique_str);
-			pstmt3.setString(1, unique_str);
-			pstmt4.setString(1, unique_str);
-			pstmt5.setString(1, unique_str);
-
-
-			// 実行
-			rs = pstmt.executeQuery();
-			rs2 = pstmt2.executeQuery();
-			rs3 = pstmt3.executeQuery();
-			rs4 = pstmt4.executeQuery();
-			rs5 = pstmt5.executeQuery();
-
-			
-			List<ComposerRecordY> composerList = new ArrayList<ComposerRecordY>();
-
-
-			//実行結果受け取り
-			while(rs.next()) {
-				ComposerRecordY cr = new ComposerRecordY();
-
-				//ユニークコード
-				String unique_code = rs.getString("unique_code");
-				cr.setUnique_code(unique_code);
-
-				//ニックネーム
-				String nickname = rs.getString("nickname");
-				cr.setNickname(nickname);
-
-				//メッセージ
-				String message = rs.getString("message");
-				if(message == null) {
-					message = " ";
-				}
-				cr.setMessage(message);
-
-				//性別
-				String gender = rs.getString("gender");
-				gender = C0005.getExchangeGender(gender);
-				if(gender == null) {
-					gender = "  ";
-				}
-				cr.setGender(gender);
-
-				//誕生日
-				String birthday = rs.getString("birthday");
-				if(birthday != null) {
-					birthday = ExchangeBirthday(birthday);
-				}
-				cr.setBirthday(birthday);
-
-				//Facebookリンク
-				String fb_link = rs.getString("fb_link");
-				if(fb_link == null) {
-					fb_link = " ";
-				}
-				cr.setFb_link(fb_link);
-
-				//Twitterリンク
-				String tw_link = rs.getString("tw_link");
-				if(tw_link == null) {
-					tw_link = " ";
-				}
-				cr.setTw_link(tw_link);
-
-				//登録日
-				String joined_date = rs.getString("joined_date");
-				joined_date = ExchangeJoined_date(joined_date);
-				cr.setJoined_date(joined_date);
-				
-				//曲ID
-				int ID = rs.getInt("ID");
-				cr.setID(ID);
-
-				//曲名
-				String title = rs.getString("title");
-				cr.setTitle(title);
-
-				//イメージファイル名
-				String image_file_name = rs.getString("image_file_name");
-				if(image_file_name == null) {
-					image_file_name ="noimage.png";
-				}
-				cr.setImage_file_name(image_file_name);
-
-				//総感動指数
-				long rating_total = rs.getLong("rating_total");
-				String rating_total_str = commaSeparatedString(rating_total);
-				cr.setRating_total(rating_total_str);
-
-				//平均感動指数
-				double rating_average = rs.getDouble("rating_average");
-				rating_average = RoundHalfUp(rating_average);
-				cr.setRating_average(rating_average);
-
-				//関連リンクURL
-				String other_link_url = rs.getString("other_link_url");
-				cr.setOther_link_url(other_link_url);
-
-				//関連リンク文字列
-				String other_link_description = rs.getString("other_link_description");
-				if(other_link_description == null) {
-					other_link_description = " ";
-				}
-				cr.setOther_link_description(other_link_description);
-
-				//再生回数
-				long total_listen_count = rs.getLong("total_listen_count");
-				String total_listen_count_str = commaSeparatedString(total_listen_count);
-				cr.setTotal_listen_count(total_listen_count_str);
-
-				//公開日時
-				double release_datetime = rs.getDouble("release_datetime");
-
-				String release_datetime_str = getLastUploadTime(release_datetime);
-				cr.setRelease_datetime(release_datetime_str);
-
-				composerList.add(cr);
-
-
-			}
-			
-			request.setAttribute("composerList", composerList);	
-			
-			
-			//レコードの該当件数
-			String count = null;
-
-			while(rs2.next()) {
-				count = rs2.getString("count(unique_code)");
-				
-			}
-			request.setAttribute("count", count);	
-
-			//総感動指数の合計
-			long sum1 = 0;
-			String sum_str1 = null;
-
-			while(rs3.next()) {
-				sum1 = rs3.getLong("sum(rating_total)");
-				sum_str1 = commaSeparatedString(sum1);
-			}
-			request.setAttribute("sum_str1", sum_str1);	
-
-
-			//平均感動指数の平均
-			double avg = 0;
-
-			while(rs4.next()) {
-				avg = rs4.getDouble("avg(rating_average)");
-				avg = RoundHalfUp(avg);
-			}
-			request.setAttribute("avg", avg);	
-
-
-			//総再生回数	
-			long sum2 = 0;
-			String sum_str2 = null;
-
-			while(rs5.next()) {
-				sum2 = rs5.getLong("sum(total_listen_count)");
-				sum_str2 = commaSeparatedString(sum2);
-			}
-			request.setAttribute("sum_str2", sum_str2);	
-
-			
-			//S00004.jspに遷移
-			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00004.jsp" ).forward( request, response );
-
-
-		} else {
-			//404.jspに遷移
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
-		}
-		
 	}
 
 
@@ -295,11 +290,15 @@ public class S00004 extends HttpServlet {
 		double d_releaseDay = 0;
 
 		//現在のエポック秒を取得
-//		Date date = new Date(0);
-//		Double nowEpoch = (double) date.getTime();
+		//		Date date = new Date(0);
+		//		Double nowEpoch = (double) date.getTime();
 
 		//差分を算出
-		Double diff = (1687659341 - release_datetime) * 1000;
+		//Double diff = (nowEpoch - release_datetime) * 1000;
+		
+		//テスト用コード
+		Double diff = (1687486541 - release_datetime) * 1000;
+
 
 		//小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();
@@ -318,7 +317,8 @@ public class S00004 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			resultVal = diff + "秒前";
+			diff = diff/1000;
+			resultVal = String.format("%,.0f",diff) + "秒前";
 
 		}
 		//1分以上かつ2分未満
@@ -389,7 +389,7 @@ public class S00004 extends HttpServlet {
 		}
 		return resultVal;
 	}
-	
+
 	//カンマの挿入
 	private static String commaSeparatedString(long i) {
 		return String.format("%,d", i);
@@ -421,14 +421,6 @@ public class S00004 extends HttpServlet {
 		return sb.toString();
 	}
 
-
-	public void doPost(
-			HttpServletRequest request,
-			HttpServletResponse response)
-					throws IOException, ServletException {
-
-		getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
-
-	}
 }
+
 
