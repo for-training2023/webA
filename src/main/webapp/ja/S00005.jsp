@@ -14,7 +14,7 @@ if ("1".equals(request.getAttribute("release_date_is_error"))) {
 	release_date_is_error = ", error";
 }
 
-// (3) 以下の項目を元にニックネームの入力状態を再現する。
+// (3) 以下の項目を元に公開日の入力状態を再現する。
 String release_date_Radio1 = "";
 String release_date_Radio2 = "";
 if ("1".equals(request.getAttribute("release_date_is_radio"))) {
