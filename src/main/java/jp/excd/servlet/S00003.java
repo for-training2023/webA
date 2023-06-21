@@ -100,9 +100,6 @@ public class S00003 extends HttpServlet {
 		String unique_code=null;
 		
 		String commentID=null;
-//		String commentSongid=null;
-//		String commentComposerid=null;
-//		String toCommentid=null;
 		String comment=null;
 		Double write_datetime=null;
 		String commentNickname=null;
@@ -186,7 +183,7 @@ public class S00003 extends HttpServlet {
 			release_datetime = rs.getDouble("release_datetime");
 			last_update_datetime = rs.getDouble("last_update_datetime");
 			message = rs.getString("message");
-			key = rs.getString("key");
+			key= rs.getString("key");
 			score_type = rs.getString("score_type");
 			bpm = rs.getString("bpm");
 			image_file_name = rs.getString("image_file_name");
@@ -207,9 +204,6 @@ public class S00003 extends HttpServlet {
 		List<Map<String,String>> commentList = new ArrayList<>();  //一人ひとりのコメントを格納するリストを定義
 		while (rs2.next()) {
 			commentID = rs2.getString("ID");
-			//commentSongid = rs2.getString("Songid");
-			//commentComposerid = rs2.getString("Composerid");
-			//toCommentid = rs2.getString("toCommentid");
 			comment = rs2.getString("comment");
 			write_datetime = rs2.getDouble("write_datetime");
 			commentNickname = rs2.getString("composer.nickname");
@@ -224,10 +218,7 @@ public class S00003 extends HttpServlet {
 		Map<String,String> map = new HashMap<String,String>();  //コメント内の各パラメータを格納するマップを定義
          String s1 =getDatetime(write_datetime);  //投稿時間（エポック秒）を「～日前」の形に変更し、変数「s」に格納
          
-	         map.put("commentID",commentID);
-//	         map.put("commentSongid",commentSongid);
-//	         map.put("commentComposerid",commentComposerid);
-//	         map.put("toCommentid",toCommentid);
+	         map.put("commentID",commentID);	         
 	         map.put("comment",comment);
 			 map.put("write_datetime",s1);
 			 map.put("commentNickname",commentNickname);
@@ -257,7 +248,7 @@ public class S00003 extends HttpServlet {
 		request.setAttribute("release_datetime",s2);
 		request.setAttribute("last_update_datetime",s3);
 		request.setAttribute("message",message);
-		request.setAttribute("key",key);
+		request.setAttribute("key",C0002.getName(key));
 		request.setAttribute("score_type",score_type3);
 		request.setAttribute("bpm",bpm);
 		request.setAttribute("image_file_name",image_file_name);
