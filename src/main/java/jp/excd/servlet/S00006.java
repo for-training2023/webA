@@ -14,9 +14,8 @@ public class S00006 extends HttpServlet {
 			HttpServletResponse response)
 			throws IOException, ServletException {
 		// （1）404.jspにフォワーディングする。
-		getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
+		getServletConfig().getServletContext().getRequestDispatcher("/ja/404.jsp").forward(request, response);
 	}
-
 	public void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response)
@@ -25,10 +24,10 @@ public class S00006 extends HttpServlet {
 		//--------------------------------------------
 		//  (1)接続URLのチェック
 		//--------------------------------------------
-		String URI = request.getRequestURI();
-
-		if (("/web/ja/S00006/back".equals(URI) || "/web/ja/S00006/change".equals(URI)) == false) {
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
+		String URL = request.getRequestURI();
+		
+		if (("/webA/ja/S00006/back".equals(URL) || "/webA/ja/S00006/change".equals(URL)) == false) {
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/404.jsp").forward(request, response);
 		}
 
 		//--------------------------------------------
@@ -73,7 +72,7 @@ public class S00006 extends HttpServlet {
 		request.setAttribute("sort_order", sort_order);
 
 		// (4) S00005.jspにフォワーディングする。
-		getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request, response);
+		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request, response);
 	}
 
 }
