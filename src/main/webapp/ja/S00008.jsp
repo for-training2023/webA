@@ -23,7 +23,7 @@ List<ComposerRecord_s> composer = (List<ComposerRecord_s>) request.getAttribute(
 }
 
 .font_test3 {
-	font-size: 20px; /* 文字サイズ指定 */
+	font-size: 18px; /* 文字サイズ指定 */
 	color: #000000; /* 文字色指定 */
 }
 
@@ -144,8 +144,7 @@ div.message_with_right_button div.right_button input {
 				<input name="sort_order" type="hidden" value="<%=request.getAttribute("sort_order")%>">
 			<input type="submit" id="back" value="&lt;&nbsp;戻る" class="back"></input>
 		</form>
-		<a href="#" id="menu_open"> <img alt="メニュー"
-			src="/webA/images/menu.png" class="menu-icon">
+		<a href="#" id="menu_open"> <img alt="メニュー" src="/webA/images/menu.png" class="menu-icon">
 		</a>
 	</div>
 
@@ -178,7 +177,7 @@ div.message_with_right_button div.right_button input {
 		<div class="right_button">
 			<div class="message_with_right_button">
 				<p class="font_test3">
-					<%=request.getAttribute("hits")%>件が該当します。
+					<%=request.getAttribute("hits")	%>
 				</p>
 				<div class="right_button">
 						<input type="submit" id="change1" value="&nbsp;&nbsp;条件変更&nbsp;&nbsp;"></input>
@@ -189,28 +188,29 @@ div.message_with_right_button div.right_button input {
 
 
 		<form>
-			</span>
 			<div class="detail">
 				<ul>
 					<%
 					for (ComposerRecord_s record : composer) {
 					%>
 					<p>
-					<a href="/webA/ja/S00004/*" style="font-size: 20pt; color: #0000FF;"><%=record.getNickname()%></a>
+					<a href="/webA/ja/S00004/<%=record.getUnique_code()%>" style="font-size: 20pt; color: #0000FF;"><%=record.getNickname()%></a>
 					</p>
 					<label for="name"><span class="font_test">登録日：</span></label>
 					<span class="font_test2"> <%=record.getDate()%>
 					</span>
 					<br>
 
+					<% if(record.getGender() != null){ %>
 					<label for="name"><span class="font_test">性別：</span></label>
 					<span class="font_test2"> <%=record.getGender()%>
-					</span>
+					</span> <%} %>
 					<br>
 
+					<% if(record.getBirthday() != null){ %>
 					<label for="name"><span class="font_test">誕生日：</span></label>
 					<span class="font_test2"> <%=record.getBirthday()%>
-					</span>
+					</span> <%} %>
 					<br>
 
 					<label for="name"><span class="font_test">リスナー数：</span></label>
@@ -263,8 +263,7 @@ div.message_with_right_button div.right_button input {
 
 	<!-- フッター -->
 	<footer>
-		Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
-		Rights Reserved.
+		Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All Rights Reserved.
 	</footer>
 </body>
 </html>

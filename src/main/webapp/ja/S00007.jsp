@@ -268,8 +268,7 @@ function checkAll() {
 					</div>
 
 					<!-- 登録日 -->
-					<div id="jouken_joined_date"
-						class="jouken <%= joined_date_is_error %>">
+					<div id="jouken_joined_date" class="jouken <%= joined_date_is_error %>">
 						<div class="input_table">
 							<table>
 								<tr>
@@ -353,8 +352,7 @@ function checkAll() {
 						</div>
 
 						<!-- リスナー数 -->
-						<div id="jouken_listener_count"
-							class="jouken <%= listener_count_is_error %>">
+						<div id="jouken_listener_count"	class="jouken <%= listener_count_is_error %>">
 							<div class="input_table">
 								<table>
 									<tr>
@@ -389,7 +387,8 @@ function checkAll() {
 								<table>
 									<tr>
 										<td class="label">言語</td>
-										<td class="value"><input type="checkbox" id="id_language_type_jp" name="language_type_jp" value="002" <%= language_type_jp %>>日本語<br>
+										<td class="value">
+											<input type="checkbox" id="id_language_type_jp" name="language_type_jp" value="002" <%= language_type_jp %>>日本語<br>
 											<input type="checkbox" id="id_language_type_en" name="language_type_en" value="001" <%= language_type_en %>>英語</td>
 									</tr>
 								</table>

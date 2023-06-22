@@ -51,6 +51,7 @@ public class S00008 extends HttpServlet {
 		String listener_count_to = request.getParameter("listener_count_to");
 		String language_type_jp = request.getParameter("language_type_jp");
 		String sort_order = request.getParameter("sort_order");
+		String unique_code = request.getParameter("unique_code");
 
 		//--------------------------------------------
 		//  (3) 入力項目(POSTパラメタ)を使って、Requestオブジェクトのアトリビュートの初期化をする。
@@ -71,6 +72,8 @@ public class S00008 extends HttpServlet {
 		request.setAttribute("listener_count_to", listener_count_to);
 		request.setAttribute("language_type_jp", language_type_jp);
 		request.setAttribute("sort_order", sort_order);
+		request.setAttribute("unique_code", unique_code);
+
 		
 		// (4) S00007.jspにフォワーディングする。
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request, response);

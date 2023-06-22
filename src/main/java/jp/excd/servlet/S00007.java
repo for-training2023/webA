@@ -102,6 +102,8 @@ public class S00007 extends HttpServlet {
 		String language_type_jp = request.getParameter("language_type_jp");
 		String language_type_en = request.getParameter("language_type_en");
 		String sort_order = request.getParameter("sort_order");
+		String unique_code = request.getParameter("unique_code");
+
 
 		//入力値をアトリビュートにセット
 		request.setAttribute("error", null);
@@ -127,6 +129,7 @@ public class S00007 extends HttpServlet {
 		request.setAttribute("language_type_jp", language_type_jp);
 		request.setAttribute("language_type_en", language_type_en);
 		request.setAttribute("sort_order", sort_order);
+		request.setAttribute("unique_code", unique_code);
 
 		Integer rf = null;
 		Integer rt = null;
@@ -495,7 +498,14 @@ public class S00007 extends HttpServlet {
 				break;
 			}
 		}
+		
 		String hits = NumberFormat.getNumberInstance().format(hit);
+		if(hit <= 10) {
+			hits = hits + "件が該当します。";
+		} else {
+			hits = hits + "件が該当します。（うち10件を表示しています。）";
+		}
+		
 		request.setAttribute("hits", hits);
 		request.setAttribute("list", newList);
 

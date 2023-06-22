@@ -30,7 +30,7 @@ public class S00009 extends HttpServlet {
 		String dbName = "meloko";
 		String userName = "meloko";
 		String password = "exceed";
-		String timeZone = "JST";
+		String timeZone = "Asia/Tokyo";
 
 		try {
 			// (1)DB接続（コネクションの確立）
@@ -65,7 +65,7 @@ public class S00009 extends HttpServlet {
 		String URL = request.getRequestURI();
 
 		// (1) 接続URLが「/ja/S00009」以外の場合は、404.jspへフォワーディングする。
-		if ("/web/ja/S00009".equals(URL)) {
+		if ("/webA/ja/S00009".equals(URL)) {
 		} else {
 			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
 		}
