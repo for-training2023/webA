@@ -3,6 +3,7 @@ package jp.excd.servlet;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -290,14 +291,14 @@ public class S00004 extends HttpServlet {
 		double d_releaseDay = 0;
 
 		//現在のエポック秒を取得
-		//		Date date = new Date(0);
-		//		Double nowEpoch = (double) date.getTime();
+		Date date = new Date(0);
+		Double nowEpoch = (double) date.getTime();
 
 		//差分を算出
-		//Double diff = (nowEpoch - release_datetime) * 1000;
+		Double diff = (nowEpoch - release_datetime) * 1000;
 		
 		//テスト用コード
-		Double diff = (1687486541 - release_datetime) * 1000;
+		//Double diff = (1687486541 - release_datetime) * 1000;
 
 
 		//小数点以下を切り捨てる処理
@@ -317,8 +318,8 @@ public class S00004 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			diff = diff/1000;
-			resultVal = String.format("%,.0f",diff) + "秒前";
+			d_releaseDay = diff/1000;
+			resultVal = numberFormat.format(d_releaseDay) + "秒前";
 
 		}
 		//1分以上かつ2分未満
