@@ -702,7 +702,6 @@ $(function(){
 			Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
 			Rights Reserved.
 		</footer>
-		
 	</div>
 </body>
 </html>
