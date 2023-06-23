@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jp.excd.common.C0002;
 
 public class S00003 extends HttpServlet {
 
@@ -40,27 +43,38 @@ public class S00003 extends HttpServlet {
         Connection con = null; // コネクション
         
 		try {
-			// DB接続（コネクションの確立）
+			// (1)DB接続（コネクションの確立）
 			 con = DriverManager.getConnection(URL, connectUserName, connectPassword);
 			 
-			 this.mainProcessForSearch(request, response, con);
-			 getServletConfig().getServletContext().getRequestDispatcher("/ja/S00003.jsp").forward(request, response);
-			 
-        } catch (Exception e) {
-            e.printStackTrace();
-            
-        }
+			// (2)内部メソッド呼び出し
+				this.mainProcessForSearch(request, response, con);
 
-	}
+			} catch (Exception e) {
+				e.printStackTrace();
+				getServletConfig().getServletContext().getRequestDispatcher("/jsp/500.jsp").forward(request, response);
+
+			} finally {
+				
+				try {
+					if (con != null) {
+
+			// (3)接続したコネクションの切断を行う。
+						con.close();
+						 getServletConfig().getServletContext().getRequestDispatcher("/ja/S00003.jsp").forward(request, response);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					getServletConfig().getServletContext().getRequestDispatcher("/jsp/500.jsp").forward(request, response);
+				}
+
+			}
+		}
 		
-	
 		
 	public void mainProcessForSearch(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, Exception {
 		
 		// 接続URL受け取り
-		
-		String URL = request.getRequestURI();
 		String url = request.getRequestURI();  //URL取得
         int index = url.indexOf("/webA/ja/S00003/");  //""内の文字数取得
         String arigato = url.substring(index+16);  //文字数分「url」から除き、それを変数に代入
@@ -69,7 +83,7 @@ public class S00003 extends HttpServlet {
         	    continue;//数字の場合は次の文字の判定へ
         	}else {
     			getServletConfig().getServletContext().
-    			getRequestDispatcher("/ja/404.jsp").
+    			getRequestDispatcher("/jsp/404.jsp").
     			forward( request, response );
         	}
         }
@@ -287,7 +301,8 @@ private String getDatetime(double datetime) {
 	}
 	//2秒以上かつ60秒未満
 	else if (diff < 60000) {
-		resultVal = diff + "秒前";
+		d_releaseDay = (diff / 1000);
+		resultVal = numberFormat.format(d_releaseDay) + "秒前";
 	}
 	//1分以上かつ2分未満
 	else if (diff < 120000) {
