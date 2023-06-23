@@ -26,6 +26,9 @@ String nickname=(String)request.getAttribute("nickname");
 String unique_code=(String)request.getAttribute("unique_code");
 
 %>
+
+<% String contextPath = request.getContextPath();%>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -37,6 +40,7 @@ String unique_code=(String)request.getAttribute("unique_code");
   <link rel="stylesheet" href="/webA/css/main.css">
   <script src="/webA/js/jquery-3.3.0.min.js"></script>
   <script src="/webA/js/util.js"></script>
+  <input type="hidden" id="context_path" value="<%= contextPath %>">
 <!-- 画像の圧縮表示設定 -->
 <style>
 div.song_link div.cell div.song1 img {
