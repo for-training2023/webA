@@ -187,6 +187,7 @@ public class S00003 extends HttpServlet {
 		rs = pstmt.executeQuery();
 		rs2 = pstmt2.executeQuery();
 		
+		
 			
 		while (rs.next()) {
 			title = rs.getString("title");
@@ -212,7 +213,6 @@ public class S00003 extends HttpServlet {
 	        s3 =getDatetime(last_update_datetime); 
 	              
 		}
-		
 		
 		
 		List<Map<String,String>> commentList = new ArrayList<>();  //一人ひとりのコメントを格納するリストを定義
@@ -245,6 +245,12 @@ public class S00003 extends HttpServlet {
 			 
 		}
 		
+		if (title==(null)){
+			getServletConfig().getServletContext().
+			getRequestDispatcher("/jsp/404.jsp").
+			forward( request, response );
+		}
+
 		if (score_type.equals("1")){
 			score_type3=score_type2;
 		}
