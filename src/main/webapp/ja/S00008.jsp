@@ -189,6 +189,8 @@ div.message_with_right_button div.right_button input {
 
 		<form>
 			<div class="detail">
+			<br>
+			<hr>
 				<ul>
 					<%
 					for (ComposerRecord_s record : composer) {
@@ -204,14 +206,14 @@ div.message_with_right_button div.right_button input {
 					<% if(record.getGender() != null){ %>
 					<label for="name"><span class="font_test">性別：</span></label>
 					<span class="font_test2"> <%=record.getGender()%>
-					</span> <%} %>
-					<br>
+					</span> 
+					<br><%} %>
 
 					<% if(record.getBirthday() != null){ %>
 					<label for="name"><span class="font_test">誕生日：</span></label>
 					<span class="font_test2"> <%=record.getBirthday()%>
-					</span> <%} %>
-					<br>
+					</span> 
+					<br><%} %>
 
 					<label for="name"><span class="font_test">リスナー数：</span></label>
 					<span class="font_test2"> <%=record.getListener()%>

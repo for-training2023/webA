@@ -172,6 +172,22 @@ div.main_button input {
 	} else if ("001".equals((String)request.getAttribute("language_type_en"))) {
 		language_type_en = "checked=\"checked\"";
 	}
+	
+	//（13）以下の項目を元に並び順の入力状態を再現する。
+	String sort_order01 = "";
+	String sort_order02 = "";
+	String sort_order03 = "";
+	String sort_order04 = "";
+	
+	if ("02".equals((String)request.getAttribute("sort_order"))) {
+		sort_order02 = "selected";
+	} else if ("03".equals((String)request.getAttribute("sort_order"))) {
+		sort_order03 = "selected";
+	} else if ("04".equals((String)request.getAttribute("sort_order"))) {
+		sort_order04 = "selected";
+	} else  {
+		sort_order01 = "selected";
+	}
 %>
 
 <head>
@@ -261,12 +277,13 @@ function checkAll() {
 											<td><input type="radio" id="id_nickname_type_radio2" <%= nickname_type_radio2 %> name="nickname_type_radio" value="2" >
 											<span class="radio_label" >完全一致</span></td>
 										</tr>
-									</table> <input type="text" id="id_nickname" name="nickname" value=<%= nickname %>>
+									</table> <input type="text" id="id_nickname" name="nickname" maxlength="255" value=<%= nickname %>>
 								</td>
 							</tr>
 						</table>
 					</div>
-
+					</div>
+					
 					<!-- 登録日 -->
 					<div id="jouken_joined_date" class="jouken <%= joined_date_is_error %>">
 						<div class="input_table">
@@ -293,6 +310,7 @@ function checkAll() {
 										<input type="date" id="id_joined_date_to" name="joined_date_to" value=<%= joined_date_to %>></td>
 								</tr>
 							</table>
+						</div>
 						</div>
 
 						<!-- 性別 -->
@@ -371,9 +389,9 @@ function checkAll() {
 									</tr>
 									<tr>
 										<td class="value"><input type="text"
-											id="id_listener_count_from" name="listener_count_from" value=<%= listener_count_from %>>
+											id="id_listener_count_from" name="listener_count_from" maxlength="8" value=<%= listener_count_from %>>
 											<br> ～ <br>
-											<input type="text" id="id_listener_count_to" name="listener_count_to" value=<%= listener_count_to %>>
+											<input type="text" id="id_listener_count_to" name="listener_count_to" maxlength="8" value=<%= listener_count_to %>>
 										</td>
 									</tr>
 								</table>
@@ -403,10 +421,10 @@ function checkAll() {
 										<td class="label">並び順</td>
 										<td class="value"><select id="id_sort_order"
 											name="sort_order" tabindex="10">
-												<option value="01" selected="selected">新しい順</option>
-												<option value="02">古い順</option>
-												<option value="03">リスナーが多い順</option>
-												<option value="04">リスナーが少ない順</option>
+												<option value="01" <%= sort_order01 %>>新しい順</option>
+												<option value="02" <%= sort_order02 %>>古い順</option>
+												<option value="03" <%= sort_order03 %>>リスナーが多い順</option>
+												<option value="04" <%= sort_order04 %>>リスナーが少ない順</option>
 										</select></td>
 									</tr>
 								</table>
