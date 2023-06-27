@@ -10,10 +10,9 @@ public class C0005 {
 	public static String getExchangeGender(String gender) {
 		if (C0005_MALE.equals(gender)) {
 			Gender = "男";
-		}
-		if (C0005_FEMALE.equals(gender)) {
+		}else if (C0005_FEMALE.equals(gender)) {
 			Gender = "女";
-		} else if(gender == null){
+		}else {
 			Gender = null;
 		}
 		return Gender;

@@ -16,7 +16,7 @@
 <meta name="description"
 	content="「メロコ」はiPhone,iPadで動作する作曲アプリです。思いついたメロディーをどんどん曲として保存していきましょう。">
 <title>作曲家紹介</title>
-<link rel="stylesheet" href="/webA/css/main.css">
+<link rel="stylesheet" href="/webA/css/main.css?<?php echo date('YmdHis'); ?>">
 <script src="/webA/js/jquery-3.3.0.min.js"></script>
 <script src="/webA/js/util.js"></script>
 <!-- 画像の圧縮表示設定 -->
@@ -125,9 +125,12 @@ img.a {
 					<td class="value">
 						<span class="label_top">登録：</span> <span class="value"><%=composerList.get(0).getJoined_date()%></span> <br> 
 						<span class="label_top">作品数：</span> 
+						<%-- リストの中に曲名がない場合(曲を公開していない作曲家もいるため) --%>
 						<% if(composerList.get(0).getTitle() == null ){ %>
+						<%-- レコード数から-1した値を表示する --%>
 						<span class="value"><%= count-1 %> </span> <br>
 						<% }else{ %>
+						<%-- レコード数を表示する --%>
 						<span class="value"><%= count %> </span> <br>
 						<% } %>
 						<span class="label_top">総感動指数：</span> <span class="value"><%=sum_str1%></span> <br> 
@@ -140,7 +143,7 @@ img.a {
 
 		<!-- 関連リンク -->
 		<div class="single_row_table">
-			<% if(composerList.get(0).getOther_link_description() != null){ %>
+			<% if(composerList.get(0).getOther_link_description() != null && composerList.get(0).getOther_link_url() != null){ %>
 			<table>
 				<tr>
 					<td class="label">関連リンク</td>

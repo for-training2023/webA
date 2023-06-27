@@ -3,7 +3,6 @@ package jp.excd.servlet;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,7 +74,7 @@ public class S00004 extends HttpServlet {
 
 			String unique_str = decodeResult.substring(16);
 
-			// 接続URLが「/ja/S00004/*」以外の場合は、404.jspへフォワーディングする。
+			// 接続URLが「/ja/S00004/*」の場合は以下の処理をする。
 			if (URL.matches("(/webA/ja/S00004/).+")) {
 
 
@@ -182,7 +181,7 @@ public class S00004 extends HttpServlet {
 					//イメージファイル名
 					String image_file_name = rs.getString("image_file_name");
 					if(image_file_name == null) {
-						image_file_name ="noimage.png";
+						image_file_name = "noimage.png";
 					}
 					cr.setImage_file_name(image_file_name);
 
@@ -202,9 +201,6 @@ public class S00004 extends HttpServlet {
 
 					//関連リンク文字列
 					String other_link_description = rs.getString("other_link_description");
-					if(other_link_description == null) {
-						other_link_description = " ";
-					}
 					cr.setOther_link_description(other_link_description);
 
 					//再生回数
@@ -222,8 +218,10 @@ public class S00004 extends HttpServlet {
 
 
 				}
+				
+				//URLからデータを取得できなかった場合
 				if( composerList.size() == 0) {
-					//404.jspに遷移
+					//404.jspにフォワーディング
 					getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
 				}
 
@@ -272,9 +270,8 @@ public class S00004 extends HttpServlet {
 				request.setAttribute("sum_str2", sum_str2);	
 
 
-				//S00004.jspに遷移
+				//S00004.jspにフォワーディング
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00004.jsp" ).forward( request, response );
-
 
 			} 
 
@@ -291,14 +288,14 @@ public class S00004 extends HttpServlet {
 		double d_releaseDay = 0;
 
 		//現在のエポック秒を取得
-		Date date = new Date(0);
-		Double nowEpoch = (double) date.getTime();
+//		Date date = new Date(0);
+//		Double nowEpoch = (double) date.getTime();
 
 		//差分を算出
-		Double diff = (nowEpoch - release_datetime) * 1000;
+//		Double diff = (nowEpoch - release_datetime) * 1000;
 		
 		//テスト用コード
-		//Double diff = (1687486541 - release_datetime) * 1000;
+		Double diff = (1687486541 - release_datetime) * 1000;
 
 
 		//小数点以下を切り捨てる処理
