@@ -17,10 +17,14 @@ if ("1".equals(request.getAttribute("release_date_is_error"))) {
 // (3) 以下の項目を元に公開日の入力状態を再現する。
 String release_date_Radio1 = "";
 String release_date_Radio2 = "";
+String date_required = "";
 if ("1".equals(request.getAttribute("release_date_is_radio"))) {
 	release_date_Radio1 = "checked=\"checked\"";
+	//背景の色を維持する
+	date_required = "required";
 } else {
 	release_date_Radio2 = "checked=\"checked\"";
+	date_required = "";
 }
 String release_date_is_from = (String) request.getAttribute("release_date_is_from");
 String release_date_is_to = (String) request.getAttribute("release_date_is_to");
@@ -33,10 +37,14 @@ if ("1".equals(request.getAttribute("rating_is_error"))) {
 // (5) 以下の項目を元に感動指数の入力状態を再現する。
 String rating_radio1 = "";
 String rating_radio2 = "";
+String rating_required = "";
 if ("1".equals(request.getAttribute("rating_radio"))) {
 	rating_radio1 = "checked=\"checked\"";
+	//背景の色を維持する
+	rating_required = "required";
 } else {
 	rating_radio2 = "checked=\"checked\"";
+	rating_required = "";
 }
 String rating_from = (String) request.getAttribute("rating_from");
 if (rating_from == null)
@@ -48,15 +56,19 @@ if (rating_to == null)
 // (6) 「平均感動指数_エラー状態(rating_average_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 String rating_average_is_error = "";
 if ("1".equals(request.getAttribute("rating_average_is_error"))) {
-	rating_is_error = ", error";
+	rating_average_is_error = ", error";
 }
 // (7) 以下の項目を元に平均感動指数の入力状態を再現する。rating_average_radio
 String rating_average_radio1 = "";
 String rating_average_radio2 = "";
+String rating_average_required = "";
 if ("1".equals(request.getAttribute("rating_average_radio"))) {
 	rating_average_radio1 = "checked=\"checked\"";
+	//背景の色を維持する
+	rating_average_required ="required";
 } else {
 	rating_average_radio2 = "checked=\"checked\"";
+	rating_average_required ="";
 }
 //平均感動指数の指数選択
 String rating_average_from = (String) request.getAttribute("rating_average_from");
@@ -326,10 +338,13 @@ if ("1".equals(request.getAttribute("views_is_error"))) {
 // (9) 以下の項目を元に再生回数の入力状態を再現する。
 String views_radio1 = "";
 String views_radio2 = "";
+String views_required = "";
 if ("1".equals(request.getAttribute("views_radio"))) {
 	views_radio1 = "checked=\"checked\"";
+	views_required = "required";
 } else {
 	views_radio2 = "checked=\"checked\"";
+	views_required = "";
 }
 String views_from = (String) request.getAttribute("views_from");
 if (views_from == null)
@@ -347,10 +362,13 @@ if ("1".equals(request.getAttribute("title_is_error"))) {
 // (11) 以下の項目を元に曲名の入力状態を再現する。
 String title_radio1 = "";
 String title_radio2 = "";
+String title_required = "";
 if ("1".equals(request.getAttribute("title_radio"))) {
 	title_radio1 = "checked=\"checked\"";
+	title_required = "required";
 } else {
 	title_radio2 = "checked=\"checked\"";
+	title_required ="";
 }
 //あいまいラジオボタン
 String title_type_radio1 = "";
@@ -387,8 +405,7 @@ if (sort_order == null)
 $(function(){
 	$("#id_rating_average_from").val("<%=rating_average_from%>");
 	$("#id_rating_average_to").val("<%=rating_average_to%>");
-	$("#id_sort_order").val("<%=sort_order%>
-	");
+	$("#id_sort_order").val("<%=sort_order%>");
 	});
 
 	const checkbox1 = document.getElementsByName("title_type_radio")
@@ -430,7 +447,7 @@ $(function(){
 
 			<!-- 公開日 -->
 			<div id="jouken_date" class="jouken<%=release_date_is_error%>">
-				<div class="input_table">
+				<div class="input_table <%=date_required %>">
 					<table>
 						<tr>
 							<td class="label" rowspan=2>公開日</td>
@@ -461,7 +478,7 @@ $(function(){
 
 			<!-- 感動指数 -->
 			<div id="jouken_rating" class="jouken<%=rating_is_error%>">
-				<div class="input_table">
+				<div class="input_table <%=rating_required %>">
 					<table>
 						<tr>
 							<td class="label" rowspan=2>感動指数</td>
@@ -480,8 +497,8 @@ $(function(){
 						</tr>
 						<tr>
 							<td class="value"><input type="text" name="rating_from"
-								value="<%=rating_from%>"> <br> ～ <br> <input
-								type="text" name="rating_to" value="<%=rating_to%>"></td>
+								value="<%=rating_from%>"maxlength="8"> <br> ～ <br> <input
+								type="text" name="rating_to" value="<%=rating_to%>"maxlength="8"></td>
 						</tr>
 					</table>
 				</div>
@@ -490,7 +507,7 @@ $(function(){
 			<!-- 平均感動指数 -->
 			<div id="jouken_ratingAverage"
 				class="jouken<%=rating_average_is_error%>">
-				<div class="input_table">
+				<div class="input_table <%=rating_average_required %>">
 					<table>
 						<tr>
 							<td class="label" rowspan=2>平均感動指数</td>
@@ -602,7 +619,7 @@ $(function(){
 			</div>
 			<!-- 再生回数 -->
 			<div id="jouken_views" class="jouken<%=views_is_error%>">
-				<div class="input_table">
+				<div class="input_table <%=views_required %>">
 					<table>
 						<tr>
 							<td class="label" rowspan=2>再生回数</td>
@@ -621,15 +638,15 @@ $(function(){
 						</tr>
 						<tr>
 							<td class="value"><input type="text" name="views_from"
-								value="<%=views_from%>"> <br> ～ <br> <input
-								type="text" name="views_to" value="<%=views_to%>"></td>
+								value="<%=views_from%>"maxlength="8"> <br> ～ <br> <input
+								type="text" name="views_to" value="<%=views_to%>"maxlength="8"></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 			<!-- 曲名 -->
 			<div id="jouken_song_title" class="jouken<%=title_is_error%>">
-				<div class="input_table">
+				<div class="input_table <%=title_required %>">
 					<table>
 						<tr>
 							<td class="label" rowspan=2>曲名</td>
@@ -659,7 +676,7 @@ $(function(){
 											<%=title_type_radio2%>><span class="radio_label">完全一致</span>
 										</td>
 									</tr>
-								</table> <input type="text" name="title" value="<%=title%>">
+								</table> <input type="text" name="title" value="<%=title%>"maxlength="255">
 							</td>
 						</tr>
 					</table>

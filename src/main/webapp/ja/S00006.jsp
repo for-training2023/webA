@@ -111,23 +111,17 @@ img.torimingu {
 				<a href="javascript:Change.submit()">条件変更</a>
 			</div>
 		</div>
+				<!-- ページトップへjavaScript -->
+		<div id="pagetop" hidden>
+			<img alt="ページトップ" src="/webA/images/pagetop.png">
+		</div>
+
+		<!-- フッター -->
+		<footer>
+			Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
+			Rights Reserved.
+		</footer>
 	</div>
-
-	<!-- ページトップへjavaScript -->
-	<div id="pagetop" hidden>
-		<img alt="ページトップ" src="/webA/images/pagetop.png">
-	</div>
-	<br>
-	<hr>
-	<!-- フッター -->
-	<footer>
-		<p>
-			Copyright &copy; <a href="https://www.excd.jp/top">EXCEED
-				Co.,ltd.</a>
-		</p>
-	</footer>
-
-
 
 
 	<form name = "Back"id="formBack" method="POST" action="/webA/ja/S00006/back">

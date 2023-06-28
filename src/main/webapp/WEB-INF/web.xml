@@ -3,6 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	version="4.0">
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/ja/404.jsp</location>
+	</error-page>
+
+	<servlet>
+		<servlet-name>S00003</servlet-name>
+		<servlet-class>jp.excd.servlet.S00003</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00004</servlet-name>
+		<servlet-class>jp.excd.servlet.S00004</servlet-class>
+	</servlet>
+
 	<servlet>
 		<servlet-name>S00005</servlet-name>
 		<servlet-class>jp.excd.servlet.S00005</servlet-class>
@@ -12,12 +28,26 @@
 		<servlet-name>S00006change</servlet-name>
 		<servlet-class>jp.excd.servlet.S00006</servlet-class>
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>S00006back</servlet-name>
 		<servlet-class>jp.excd.servlet.S00006</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>S00007</servlet-name>
+		<servlet-class>jp.excd.servlet.S00007</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00008</servlet-name>
+		<servlet-class>jp.excd.servlet.S00008</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00009</servlet-name>
+		<servlet-class>jp.excd.servlet.S00009</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>Init</servlet-name>
 		<servlet-class>jp.excd.servlet.MySQLSetting</servlet-class>
@@ -26,19 +56,43 @@
 
 	<servlet-mapping>
 		<servlet-name>S00005</servlet-name>
-		<url-pattern>/ja/S00005/*</url-pattern>
+		<url-pattern>/ja/S00005/search</url-pattern>
 	</servlet-mapping>
+
 
 	<servlet-mapping>
 		<servlet-name>S00006change</servlet-name>
 		<url-pattern>/ja/S00006/change</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet-mapping>
 		<servlet-name>S00006back</servlet-name>
 		<url-pattern>/ja/S00006/back</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>S00003</servlet-name>
+		<url-pattern>/ja/S00003/*</url-pattern>
+	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>S00004</servlet-name>
+		<url-pattern>/ja/S00004/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00007</servlet-name>
+		<url-pattern>/ja/S00007/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00008</servlet-name>
+		<url-pattern>/ja/S00008/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00009</servlet-name>
+		<url-pattern>/ja/S00009</url-pattern>
+	</servlet-mapping>
 
 </web-app>
