@@ -14,6 +14,9 @@ public class C0005 {
 		if (C0005_FEMALE.equals(gender)) {
 			Gender = "女";
 		}
+		if (gender == null) {
+			Gender = null;
+		}
 		return Gender;
 	}
 }

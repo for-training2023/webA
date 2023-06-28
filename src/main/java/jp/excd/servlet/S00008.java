@@ -50,6 +50,7 @@ public class S00008 extends HttpServlet {
 		String listener_count_from = request.getParameter("listener_count_from");
 		String listener_count_to = request.getParameter("listener_count_to");
 		String language_type_jp = request.getParameter("language_type_jp");
+		String language_type_en = request.getParameter("language_type_en");
 		String sort_order = request.getParameter("sort_order");
 		String unique_code = request.getParameter("unique_code");
 
@@ -71,6 +72,7 @@ public class S00008 extends HttpServlet {
 		request.setAttribute("listener_count_from", listener_count_from);
 		request.setAttribute("listener_count_to", listener_count_to);
 		request.setAttribute("language_type_jp", language_type_jp);
+		request.setAttribute("language_type_en", language_type_en);
 		request.setAttribute("sort_order", sort_order);
 		request.setAttribute("unique_code", unique_code);
 

@@ -52,8 +52,8 @@ div.main_button input {
 		nickname_radio2 = "checked=\"checked\"";
 	}
 	
-		String nickname_type_radio1 = "";
-		String nickname_type_radio2 = "";
+	String nickname_type_radio1 = "";
+	String nickname_type_radio2 = "";
 	if ("1".equals((String)request.getAttribute("nickname_type_radio"))) {
 		nickname_type_radio1 = "checked=\"checked\"";
 	} else {
@@ -63,6 +63,12 @@ div.main_button input {
 		String nickname = (String)request.getAttribute("nickname");
 	if (nickname == null){
 		nickname = "";
+	}
+	
+	//ニックネーム選択時に背景色を黄色に変える
+	String nickname_change = "";
+	if ("1".equals((String)request.getAttribute("nickname_radio"))) {
+		nickname_change = ", required";
 	}
 	
 	
@@ -91,6 +97,12 @@ div.main_button input {
 		joined_date_to = "";
 	}
 
+	//登録日選択時に背景色を黄色に変える
+	String joined_date_change = "";
+	if ("1".equals((String)request.getAttribute("joined_date_radio"))) {
+		joined_date_change = ", required";
+	}
+	
 	// (6) 以下の項目を元に性別の入力状態を再現する。
 	String gender_radio1 = "";
 	String gender_radio2 = "";
@@ -106,6 +118,12 @@ div.main_button input {
 		gender2 = "selected";
 	} else {
 		gender1 = "selected";
+	}
+	
+	//性別選択時に背景色を黄色に変える
+	String gender_change = "";
+	if ("1".equals((String)request.getAttribute("gender_radio"))) {
+		gender_change = ", required";
 	}
 	
 	// (7) 「誕生日_エラー状態(birthday_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
@@ -132,6 +150,12 @@ div.main_button input {
 	if (birthday_to == null){
 		birthday_to = "";
 	}
+	
+	//誕生日選択時に背景色を黄色に変える
+	String birthday_change = "";
+	if ("1".equals((String)request.getAttribute("birthday_radio"))) {
+		birthday_change = ", required";
+	}
 
 	// (9) 「リスナー数_エラー状態(listener_count_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String listener_count_is_error = "";
@@ -157,6 +181,12 @@ div.main_button input {
 	if (listener_count_to == null){
 		listener_count_to ="";
 	}
+	
+	//リスナー数選択時に背景色を黄色に変える
+	String listener_change = "";
+	if ("1".equals((String)request.getAttribute("listener_count_radio"))) {
+		listener_change = ", required";
+	}
 
 	// (11) 「言語区分_エラー状態(language_type_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String language_type_is_error = "";
@@ -169,7 +199,8 @@ div.main_button input {
 	String language_type_en = "";
 	if ("002".equals((String)request.getAttribute("language_type_jp"))) {
 		language_type_jp = "checked=\"checked\"";
-	} else if ("001".equals((String)request.getAttribute("language_type_en"))) {
+	}
+	if ("001".equals((String)request.getAttribute("language_type_en"))) {
 		language_type_en = "checked=\"checked\"";
 	}
 	
@@ -249,8 +280,8 @@ function checkAll() {
 			<div class="contents_search">
 
 				<!-- ニックネーム -->
-				<div id="jouken_nickname" class="jouken <%= nickname_is_error %>">
-					<div class="input_table">
+				<div id="jouken_nickname" class="jouken <%= nickname_is_error %>" >
+					<div class="input_table <%= nickname_change %>">
 						<table>
 						<tr>
 							<td class="label" rowspan=2>ニックネーム</td>
@@ -286,7 +317,7 @@ function checkAll() {
 					
 					<!-- 登録日 -->
 					<div id="jouken_joined_date" class="jouken <%= joined_date_is_error %>">
-						<div class="input_table">
+						<div class="input_table <%= joined_date_change %>">
 							<table>
 								<tr>
 									<td class="label" rowspan=2>登録日</td>
@@ -314,7 +345,7 @@ function checkAll() {
 						</div>
 
 						<!-- 性別 -->
-						<div class="input_table">
+						<div class="input_table <%= gender_change %>">
 							<table>
 								<tr>
 									<td class="label" rowspan=2>性別</td>
@@ -341,7 +372,7 @@ function checkAll() {
 
 						<!-- 誕生日 -->
 						<div id="jouken_birthday" class="jouken <%= birthday_is_error %>">
-							<div class="input_table">
+							<div class="input_table <%= birthday_change %>">
 								<table>
 									<tr>
 										<td class="label" rowspan=2>誕生日</td>
@@ -371,7 +402,7 @@ function checkAll() {
 
 						<!-- リスナー数 -->
 						<div id="jouken_listener_count"	class="jouken <%= listener_count_is_error %>">
-							<div class="input_table">
+							<div class="input_table <%= listener_change %>">
 								<table>
 									<tr>
 										<td class="label" rowspan=2>リスナー数</td>

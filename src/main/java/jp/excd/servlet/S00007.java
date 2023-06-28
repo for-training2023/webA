@@ -338,7 +338,7 @@ public class S00007 extends HttpServlet {
 				}
 			}
 		}
-
+		
 		// (12) リスナー数FROMについてエラー判定を行う。
 		if ("1".equals(listener_count_radio)) {
 			if (listener_count_from == null || "".equals(listener_count_from)) {
@@ -353,6 +353,23 @@ public class S00007 extends HttpServlet {
 			} else {
 				// 処理継続
 				rf = Integer.parseInt(listener_count_from);
+			}
+		}
+
+		if ("1".equals(listener_count_radio)) {
+			if (!("".equals(listener_count_from))) {
+				rf = Integer.parseInt(listener_count_from);	//下限
+			}
+			if (!("".equals(listener_count_to))) {
+				rt = Integer.parseInt(listener_count_to);		//上限
+			}
+			if (rf < 0 || rt < 0) {
+				//エラー
+				String s = this.getDescription(con, "ES00007_011", "002");
+				request.setAttribute("error", s);
+				request.setAttribute("listener_count_is_error", "1");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,response);
+				return;
 			}
 		}
 
@@ -440,18 +457,8 @@ public class S00007 extends HttpServlet {
 			}
 		}
 
-
 		// (16)	言語区分について、エラー判定を行う。
-		if ("002".equals(language_type_jp)) {
-			if ("001".equals(language_type_en)) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_014", "002");
-				request.setAttribute("error", s);
-				request.setAttribute("language_type_is_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,response);
-				return;
-			}
-		} else {
+		if (!("002".equals(language_type_jp))) {
 			if(!("001".equals(language_type_en))) {
 				// エラー
 				String s = this.getDescription(con, "ES00007_014", "002");
@@ -843,20 +850,32 @@ public class S00007 extends HttpServlet {
 
 
 		// (12) 言語区分のSQLへの連結及びプレイスホルダへの設定
-		if ("002".equals(language_type_jp)) {
-			if (list.size() == 0) {
-				//WHEREを連結
-				query = query + sql3;
-			} else {
+		if ("002".equals(language_type_jp)) {			//日本語指定
+			if (!("001".equals(language_type_en))) {	//英語指定なし
+				if (list.size() == 0) {
+					//WHEREを連結
+					query = query + sql3;
+				} else {
+					//AND連結
+					query = query + sql21;
+				}
+				//プレイスホルダに保持
+				query = query + sql22;
+				PlaceHolderInput phi = new PlaceHolderInput();
+				phi.setType("3");
+				phi.setStringValue(language_type_jp);
+				list.add(phi);
+			} else {									//日本語、英語
+				if (list.size() == 0) {
+					//WHEREを連結
+					query = query + sql3;
+				} else {
+					//AND連結
+					query = query + sql21;
+				}
 				//AND連結
-				query = query + sql21;
+				query = query +"language_type IN ( " + language_type_jp + ", " + language_type_en + " )";
 			}
-			//プレイスホルダに保持
-			query = query + sql22;
-			PlaceHolderInput phi = new PlaceHolderInput();
-			phi.setType("3");
-			phi.setStringValue(language_type_jp);
-			list.add(phi);
 		} else if ("001".equals(language_type_en)) {
 			if (list.size() == 0) {
 				//WHEREを連結
