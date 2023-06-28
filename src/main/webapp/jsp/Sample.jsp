@@ -11,10 +11,10 @@
 <body>
   <% String count = (String)request.getAttribute("count");
   if (( count != null )&&( !count.equals(""))) {
-	  %><p>Success</p><%
+	  %><p>Success!!!</p><%
   } else {
 	  %><p>mst_description not founc!</p><%
   }
-  %>
+  %>  
 </body>
 </html>

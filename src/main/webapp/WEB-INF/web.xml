@@ -86,11 +86,6 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>S00004</servlet-name>
-		<url-pattern>/ja/S00004/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
 		<servlet-name>S00007</servlet-name>
 		<url-pattern>/ja/S00007/*</url-pattern>
 	</servlet-mapping>
