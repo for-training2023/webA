@@ -64,7 +64,7 @@ div.title_bar {
   height: 40px;
   background-color: #bfffe4;
 }
-form.back {
+a.back {
   position:absolute;
   display: block;
   height: 40px;
