@@ -167,7 +167,7 @@ div.a{
         </tr>
         <tr>
           <td class="value">
-            <a href="https://google.co.jp"><%=other_link_description %></a>
+            <a href="<%=other_link_url %>"><%=other_link_description %></a>
           </td>
         </tr>
       </table>

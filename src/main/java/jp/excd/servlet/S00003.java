@@ -95,7 +95,7 @@ public class S00003 extends HttpServlet {
 		int rating_total;
 		rating_total=0;
 		Double rating_average=null;
-		int total_listen_count;
+		long total_listen_count;
 		total_listen_count=0;
 		Double release_datetime=null;
 		Double last_update_datetime=null;
@@ -104,7 +104,7 @@ public class S00003 extends HttpServlet {
 		String score_type=null;
 		String score_type2=("1オクターブ上(男性ボーカル)");
 		String score_type3=null;
-		String bpm=null;
+		Double bpm=null;
 		String image_file_name=null;
 		String image_file_height=null;
 		String image_file_width=null;
@@ -194,13 +194,13 @@ public class S00003 extends HttpServlet {
 			composer_id = rs.getString("composer_id");
 			rating_total = rs.getInt("rating_total");
 			rating_average = rs.getDouble("rating_average");
-			total_listen_count = rs.getInt("total_listen_count");
+			total_listen_count = rs.getLong("total_listen_count");
 			release_datetime = rs.getDouble("release_datetime");
 			last_update_datetime = rs.getDouble("last_update_datetime");
 			message = rs.getString("message");
 			key= rs.getString("key");
 			score_type = rs.getString("score_type");
-			bpm = rs.getString("bpm");
+			bpm = rs.getDouble("bpm");
 			image_file_name = rs.getString("image_file_name");
 			image_file_height = rs.getString("image_file_height");
 			image_file_width = rs.getString("image_file_width");
@@ -253,7 +253,14 @@ public class S00003 extends HttpServlet {
 
 		if (score_type.equals("1")){
 			score_type3=score_type2;
+		}else {
+			score_type3="0";
 		}
+		
+		if(image_file_name==null) {
+			image_file_name="noimage.png";
+		}
+		
 		
 		rating_average = rating_average * 10;  //平均感動指数の小数点第２位を四捨五入
 		double afterratingAverage = Math.round(rating_average);			
@@ -270,7 +277,7 @@ public class S00003 extends HttpServlet {
 		request.setAttribute("message",message);
 		request.setAttribute("key",C0002.getName(key));
 		request.setAttribute("score_type",score_type3);
-		request.setAttribute("bpm",bpm);
+		request.setAttribute("bpm",checkBpm(bpm));
 		request.setAttribute("image_file_name",image_file_name);
 		request.setAttribute("image_file_height",image_file_height);
 		request.setAttribute("image_file_width",image_file_width);
@@ -290,9 +297,10 @@ private String getDatetime(double datetime) {
 	double d_releaseDay = 0;
 	//現在のエポック秒を取得
 	Date date = new Date();
-	Double nowEpoch = (double) date.getTime();
+	//Double nowEpoch = (double) date.getTime();
 	//差分を算出
-	Double diff = nowEpoch - datetime * 1000;
+	//Double diff = nowEpoch - datetime * 1000;
+	Double diff = (1687486541 - datetime) * 1000;
 	//小数点以下を切り捨てる処理
 	NumberFormat numberFormat = NumberFormat.getInstance();
 	numberFormat.setMaximumFractionDigits(0);
@@ -375,5 +383,18 @@ private String getTenTimes(double num) {
 	return result;
 	
 	}
+
+private String checkBpm(double bpm) {
+	int tenTimesBpm = (int) (bpm * 10);  //引数のBPMを10倍してtenTimesBpmに代入
+	int remainder = tenTimesBpm % 10;  //tenTimesBpmが10で割り切れるか確かめるために、10で割った余りを変数"remainder"に代入
+	if(remainder == 0) {  //もし"remainder"が"0"だったら（一の位が”０”だったら）１０で割って（元に戻し）、Stringに変換でリターン
+		tenTimesBpm = tenTimesBpm / 10;
+		return Integer.toString(tenTimesBpm);
+	}else {
+		return String.valueOf(bpm);  //余りが"0"ではなかったら（小数点第一位が"0"ではなかったら）、引数のBPMをそのままString型に変換しリターン
+	}
+}
+
+
 }
 
