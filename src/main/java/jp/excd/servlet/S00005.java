@@ -200,7 +200,7 @@ public class S00005 extends HttpServlet {
 		// (6) 公開日FROM、公開日TOについてエラー判定を行う。
 		if ("1".equals(release_date_Radio)) {
 			if(release_date_to == null ||  "".equals(release_date_to)) {
-				release_date_to = "3000-01-01";
+				release_date_to = "3000-01-01 ";
 			}
 			int checkResult = release_date_to.compareTo(release_date_from);
 			if (checkResult < 0) {
@@ -588,7 +588,8 @@ public class S00005 extends HttpServlet {
 
 				PlaceHolderInput phi = new PlaceHolderInput();
 				phi.setType("2");
-				phi.setDoubleValue(this.getDateValue(release_date_from));
+				phi.setDoubleValue(this.getDateValue(release_date_from)+540);
+//				phi.setDoubleValue(getEpochTime(getDateValue(release_date_from)));
 				list.add(phi);
 			}
 
@@ -608,7 +609,7 @@ public class S00005 extends HttpServlet {
 
 				PlaceHolderInput phi = new PlaceHolderInput();
 				phi.setType("2");
-				phi.setDoubleValue(this.getDateValue(release_date_to));
+				phi.setDoubleValue(this.getDateValue(release_date_to)+118800);
 				list.add(phi);
 			} else {
 				throw new Exception();
@@ -874,23 +875,32 @@ public class S00005 extends HttpServlet {
 	}
 
 	private boolean isDateValue(String value) {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			format.parse(value);
 			return true;
 		} catch (ParseException e) {
 			return false;
 		}
+	
 	}
 
 	private long getDateValue(String value) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = format.parse(value);
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = format1.parse(value);
 		long miliTime = dt.getTime();
 		long retValue = (miliTime / 1000);
 		return retValue;
 	}
+	//エポック秒に変換
+//	public static Double getEpochTime(long strDate){
+//		 
+//	    Date lm = new Date(strDate);
+//	    Double asasasas = Double.longBitsToDouble(lm.getTime());
+//	    
+//	    return asasasas;
+//	 
+//	}
 
 	public static String getLastUploadTime(Double release_datetime) {
 
