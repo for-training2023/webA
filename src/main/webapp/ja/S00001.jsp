@@ -64,9 +64,13 @@
 				<ul>
 					<% for(TopCategory cat: TopCategory.values()){ %>
 						<li class="<%= "tab" + cat.getCode()%> <%= cat.getCode().equals(category) == true ? "selected" : "" %>">
+						<% if(cat.getCode().equals(category) == true){ %>
+							<div name="category" value="<%= cat.getCode() %>"><%= cat.getCategoryName(cat.getCode()) %></div>						
+						<% }else{ %>
 							<a href="<%= Util.addContextPath(request, "/ja/S00001?category=" + cat.getCode()) %>">
 								<div name="category" value="<%= cat.getCode() %>"><%= cat.getCategoryName(cat.getCode()) %></div>
 							</a>
+						<% } %>
 						</li>
 					<% } %>
 				</ul>

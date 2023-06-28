@@ -64,6 +64,14 @@ public class S00001 extends HttpServlet {
 		}
 	}
 	
+	public void doPost(HttpServletRequest request,
+			HttpServletResponse response)
+					throws IOException, ServletException {
+		getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
+	}
+	
+	
+	
 	private void mainProcessForToppage(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, Exception {
 
@@ -183,10 +191,13 @@ public class S00001 extends HttpServlet {
 		// 現在のエポック秒を取得
 		Date date = new Date();
 		Double nowEpoch = (double) date.getTime();
+//		Double nowEpoch = (double) 1687486541001L; // テスト用コード「2023/6/23  11:15:41」のエポックミリ秒
 
 		// 差分を算出
-		Double diff1 = (nowEpoch - 5184000000L) / 1000;// カテゴリ1-3(1カ月未満)
-		Double diff2 = (nowEpoch - 63072000000L) / 1000;// カテゴリ4(1年未満)
+		// カテゴリ1-3(1カ月未満) 2592000000L = 1000ミリ秒 × 60秒 × 60分 × 24時間 × 30日
+		Double diff1 = (nowEpoch - 2592000000L) / 1000;
+		// カテゴリ4(1年未満) 31536000000L = 1000ミリ秒 × 60秒 × 60分 × 24時間 × 365日
+		Double diff2 = (nowEpoch - 31536000000L) / 1000;
 
 		//カテゴリごとにプリペアドステートメント
 		PreparedStatement pstmt = null;
@@ -430,6 +441,7 @@ public class S00001 extends HttpServlet {
 		//現在のエポック秒を取得
 		Date date = new Date();
 		Double nowEpoch = (double) date.getTime();
+//		Double nowEpoch = (double) 1687486541000L; // テスト用コード「2023/6/23  11:15:41」のエポックミリ秒
 
 		//差分を算出
 		Double diff = nowEpoch - release_datetime * 1000;
@@ -451,8 +463,8 @@ public class S00001 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			resultVal = diff + "秒前";
-
+			d_releaseDay = (diff / 1000);
+			resultVal = numberFormat.format(d_releaseDay) + "秒前";
 		}
 		//1分以上かつ2分未満
 		else if (diff < 120000) {
