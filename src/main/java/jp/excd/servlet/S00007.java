@@ -944,7 +944,7 @@ public class S00007 extends HttpServlet {
 			record.setDate(Date);
 			//性別
 			String Gender = rs.getString("gender");
-			Gender = C0005.getGender(Gender);
+			Gender = C0005.getExchangeGender(Gender);
 			record.setGender(Gender);
 			//誕生日
 			String Birthday = rs.getString("birthday");

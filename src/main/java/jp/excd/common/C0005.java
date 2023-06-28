@@ -7,7 +7,7 @@ public class C0005 {
 	public static final String C0005_FEMALE = "2";
 	public static String Gender;
 
-	public static String getGender(String gender) {
+	public static String getExchangeGender(String gender) {
 		if (C0005_MALE.equals(gender)) {
 			Gender = "男";
 		}
