@@ -297,10 +297,10 @@ private String getDatetime(double datetime) {
 	double d_releaseDay = 0;
 	//現在のエポック秒を取得
 	Date date = new Date();
-	//Double nowEpoch = (double) date.getTime();
+	Double nowEpoch = (double) date.getTime();
 	//差分を算出
-	//Double diff = nowEpoch - datetime * 1000;
-	Double diff = (1687486541 - datetime) * 1000;
+	Double diff = nowEpoch - datetime * 1000;
+	//Double diff = (1687486541 - datetime) * 1000;
 	//小数点以下を切り捨てる処理
 	NumberFormat numberFormat = NumberFormat.getInstance();
 	numberFormat.setMaximumFractionDigits(0);
