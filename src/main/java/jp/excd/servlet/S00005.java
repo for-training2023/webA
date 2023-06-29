@@ -218,7 +218,7 @@ public class S00005 extends HttpServlet {
 		if ("1".equals(rating_Radio)) {
 			if (rating_from == null || "".equals(rating_from)) {
 				// 処理継続
-			} else if (this.isNumber(rating_from) == false) {
+			} else if (this.isNumber(rating_from) == false || rating_from.contains("-")) {
 				// エラー
 				String s = this.getDescription(con, "ES00005_005");
 				request.setAttribute("error", s);
@@ -226,6 +226,7 @@ public class S00005 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
+				
 			} else {
 				// 処理継続
 				rf = Integer.parseInt(rating_from);
@@ -239,7 +240,7 @@ public class S00005 extends HttpServlet {
 		if ("1".equals(rating_Radio)) {
 			if (rating_To == null || "".equals(rating_To)) {
 				// 処理継続
-			} else if (this.isNumber(rating_To) == false) {
+			} else if (this.isNumber(rating_To) == false|| rating_from.contains("-")) {
 				// エラー
 				String s = this.getDescription(con, "ES00005_006");
 				request.setAttribute("error", s);
@@ -337,7 +338,7 @@ public class S00005 extends HttpServlet {
 		if ("1".equals(views_radio)) {
 			if (views_from == null || "".equals(views_from)) {
 				// 処理継続
-			} else if (this.isNumber(views_from) == false) {
+			} else if (this.isNumber(views_from) == false || views_from.contains("-")) {
 				// エラー
 				String s = this.getDescription(con, "ES00005_010");
 				request.setAttribute("error", s);
@@ -357,7 +358,7 @@ public class S00005 extends HttpServlet {
 		if ("1".equals(views_radio)) {
 			if (views_to == null || "".equals(views_to)) {
 				// 処理継続
-			} else if (this.isNumber(views_to) == false) {
+			} else if (this.isNumber(views_to) == false || views_to.contains("-")) {
 				// エラー
 				String s = this.getDescription(con, "ES00005_011");
 				request.setAttribute("error", s);
@@ -588,8 +589,8 @@ public class S00005 extends HttpServlet {
 
 				PlaceHolderInput phi = new PlaceHolderInput();
 				phi.setType("2");
-				phi.setDoubleValue(this.getDateValue(release_date_from)+540);
-//				phi.setDoubleValue(getEpochTime(getDateValue(release_date_from)));
+				phi.setDoubleValue(this.getDateValue(release_date_from));
+// 			phi.setDoubleValue(getEpochTime(getDateValue(release_date_from)));
 				list.add(phi);
 			}
 
@@ -609,7 +610,7 @@ public class S00005 extends HttpServlet {
 
 				PlaceHolderInput phi = new PlaceHolderInput();
 				phi.setType("2");
-				phi.setDoubleValue(this.getDateValue(release_date_to)+118800);
+				phi.setDoubleValue(this.getDateValue(release_date_to)+86399);
 				list.add(phi);
 			} else {
 				throw new Exception();
@@ -874,15 +875,17 @@ public class S00005 extends HttpServlet {
 		}
 	}
 
-	private boolean isDateValue(String value) {
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			format.parse(value);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
-	
+	public boolean isDateValue(String strDate) {
+	    strDate = strDate.replace('-', '/');
+	    DateFormat format = DateFormat.getDateInstance();
+	    // 日付/時刻解析を厳密に行うかどうかを設定する。
+	    format.setLenient(false);
+	    try {
+	        format.parse(strDate);
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
 	}
 
 	private long getDateValue(String value) throws ParseException {
@@ -892,15 +895,7 @@ public class S00005 extends HttpServlet {
 		long retValue = (miliTime / 1000);
 		return retValue;
 	}
-	//エポック秒に変換
-//	public static Double getEpochTime(long strDate){
-//		 
-//	    Date lm = new Date(strDate);
-//	    Double asasasas = Double.longBitsToDouble(lm.getTime());
-//	    
-//	    return asasasas;
-//	 
-//	}
+
 
 	public static String getLastUploadTime(Double release_datetime) {
 
