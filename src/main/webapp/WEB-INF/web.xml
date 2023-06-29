@@ -1,13 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 	version="4.0">
 
-	<welcome-file-list>
-		<welcome-file>ja/Sample</welcome-file>
-	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/ja/404.jsp</location>
+	</error-page>
 
+	<servlet>
+		<servlet-name>S00003</servlet-name>
+		<servlet-class>jp.excd.servlet.S00003</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00005</servlet-name>
+		<servlet-class>jp.excd.servlet.S00005</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00006change</servlet-name>
+		<servlet-class>jp.excd.servlet.S00006</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00006back</servlet-name>
+		<servlet-class>jp.excd.servlet.S00006</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00007</servlet-name>
+		<servlet-class>jp.excd.servlet.S00007</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00008</servlet-name>
+		<servlet-class>jp.excd.servlet.S00008</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>S00009</servlet-name>
+		<servlet-class>jp.excd.servlet.S00009</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>Init</servlet-name>
 		<servlet-class>jp.excd.servlet.MySQLSetting</servlet-class>
@@ -15,8 +50,8 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>Sample</servlet-name>
-		<servlet-class>jp.excd.servlet.SampleServlet</servlet-class>	
+		<servlet-name>S00004</servlet-name>
+		<servlet-class>jp.excd.servlet.S00004</servlet-class>	
 		<init-param>
 			<param-name>javaEncoding</param-name>
 			<param-value>UTF-8</param-value>
@@ -24,14 +59,46 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Sample</servlet-name>
-		<url-pattern>/ja/Sample/*</url-pattern>
+		<servlet-name>S00004</servlet-name>
+		<url-pattern>/ja/S00004/*</url-pattern>
+		</servlet-mapping>
+
+		
+	<servlet-mapping>	
+		<servlet-name>S00005</servlet-name>
+		<url-pattern>/ja/S00005/search</url-pattern>
 	</servlet-mapping>
 
-	<error-page>
-    <error-code>404</error-code>
-    <location>/jsp/404.jsp</location>
-    </error-page>
+
+	<servlet-mapping>
+		<servlet-name>S00006change</servlet-name>
+		<url-pattern>/ja/S00006/change</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00006back</servlet-name>
+		<url-pattern>/ja/S00006/back</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00003</servlet-name>
+		<url-pattern>/ja/S00003/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00007</servlet-name>
+		<url-pattern>/ja/S00007/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00008</servlet-name>
+		<url-pattern>/ja/S00008/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00009</servlet-name>
+		<url-pattern>/ja/S00009</url-pattern>
+	</servlet-mapping>
 
 
 	<!-- トップページS00001 -->

@@ -1,11 +1,11 @@
-package jp.excd.conponent;
+package jp.excd.servlet;
 
-public class PlaceHolderInput{
+public class PlaceHolderInput {
+
 	private String type;
-	private Integer intValue ;
-	private Double doubleValue;
+	private int intValue;
+	private double doubleValue;
 	private String stringValue;
-	
 	/**
 	 * @return type
 	 */
