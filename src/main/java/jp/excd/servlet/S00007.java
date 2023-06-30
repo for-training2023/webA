@@ -103,11 +103,7 @@ public class S00007 extends HttpServlet {
 		String language_type_en = request.getParameter("language_type_en");
 		String sort_order = request.getParameter("sort_order");
 		String unique_code = request.getParameter("unique_code");
-		
-		
-		
-
-
+	
 		//入力値をアトリビュートにセット
 		request.setAttribute("error", null);
 		request.setAttribute("nickname_is_error", null);
@@ -276,6 +272,7 @@ public class S00007 extends HttpServlet {
 				request.setAttribute("error", s);
 				request.setAttribute("birthday_is_error", "1");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,response);
+				return;
 			}
 		}
 
@@ -339,6 +336,25 @@ public class S00007 extends HttpServlet {
 			}
 		}
 		
+		if ("1".equals(listener_count_radio)) {
+			if (!("".equals(listener_count_from))) {
+				rf = Integer.parseInt(listener_count_from);	//下限
+			}
+			if (!("".equals(listener_count_to))) {
+				rt = Integer.parseInt(listener_count_to);		//上限
+			}
+			if(!((listener_count_from == null || "".equals(listener_count_from)) && (listener_count_to == null || "".equals(listener_count_to)))) {
+				if (rf < 0 || rt < 0) {
+					//エラー
+					String s = this.getDescription(con, "ES00007_011", "002");
+					request.setAttribute("error", s);
+					request.setAttribute("listener_count_is_error", "1");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,response);
+					return;
+				}
+			}
+		}
+		
 		// (12) リスナー数FROMについてエラー判定を行う。
 		if ("1".equals(listener_count_radio)) {
 			if (listener_count_from == null || "".equals(listener_count_from)) {
@@ -353,23 +369,6 @@ public class S00007 extends HttpServlet {
 			} else {
 				// 処理継続
 				rf = Integer.parseInt(listener_count_from);
-			}
-		}
-
-		if ("1".equals(listener_count_radio)) {
-			if (!("".equals(listener_count_from))) {
-				rf = Integer.parseInt(listener_count_from);	//下限
-			}
-			if (!("".equals(listener_count_to))) {
-				rt = Integer.parseInt(listener_count_to);		//上限
-			}
-			if (rf < 0 || rt < 0) {
-				//エラー
-				String s = this.getDescription(con, "ES00007_011", "002");
-				request.setAttribute("error", s);
-				request.setAttribute("listener_count_is_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,response);
-				return;
 			}
 		}
 
@@ -592,7 +591,8 @@ public class S00007 extends HttpServlet {
 			String sort_order) throws Exception {
 		
 		// (1) SQLの断片を準備する
-		String sql1 = "SELECT ID, unique_code, nickname, DATE_FORMAT(joined_date,'%Y年%c月%e日') as joined_date, gender, DATE_FORMAT(birthday,'%Y年%c月%e日') as birthday, listener_count, language_type ";
+		String sql1 = "SELECT ID, unique_code, nickname, DATE_FORMAT(joined_date,'%Y年%c月%e日') as joined_date, gender,"
+				+ " DATE_FORMAT(birthday,'%Y年%c月%e日') as birthday, listener_count, language_type ";
 		String sql2 = "FROM composer ";
 		String sql3 = "WHERE ";
 		String sql4 = "nickname  LIKE ? ";
