@@ -42,8 +42,6 @@ div.main_button input {
 	}
 
 	// (3) 以下の項目を元にニックネームの入力状態を再現する。
-	System.out.println((String)request.getAttribute("nickname_radio"));
-	
 	String nickname_radio1 = "";
 	String nickname_radio2 = "";
 	if("1".equals((String)request.getAttribute("nickname_radio"))) {
