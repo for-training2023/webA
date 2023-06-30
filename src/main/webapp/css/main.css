@@ -235,13 +235,12 @@ div.main_button a, div.main_button input {
 /******************************************************************************/
 footer {
   font-size: 0.8em;
-  text-align: right;
+  text-align: center;
   border-top: thin solid #666666;
   margin-top: 1.0em;
   padding-top: 0.5em;
   padding-right: 0.5em;
   padding-bottom: 1.5em;
-  text-align: center;
 }
 /******************************************************************************/
 /* ■■２セルのテーブル                                                       */
