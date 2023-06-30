@@ -6,15 +6,15 @@ public class C0005 {
 	public static final String C0005_MALE = "1";
 	public static final String C0005_FEMALE = "2";
 	public static String Gender;
-
+	
 	public static String getExchangeGender(String gender) {
 		if (C0005_MALE.equals(gender)) {
 			Gender = "男";
 		}
 		if (C0005_FEMALE.equals(gender)) {
 			Gender = "女";
-		}
-		if (gender == null) {
+		} else if(gender == null){
+
 			Gender = null;
 		}
 		return Gender;
